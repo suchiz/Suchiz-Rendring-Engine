@@ -6,10 +6,16 @@ This is a small 3D Engine made for a university project purpose.
 This contains a Blinn-Phong lightning and shadowmaps for the rendering part.
 You have the possibility to create your own scene, or use the demo scene.
 
-Operations available: Draw a cube, draw a plane, draw a sphere, draw a nurbs surface while playing with the color, and the position.
-More: You can modify nurbs surfaces, and move the light.
+Compile:
+cd ~/Suchiz-Rendring-Engine
+qmake -RenduProject.pro
+make
+./Suchiz-Rendring-Engine
+
 
 Usage:
+Draw a cube, draw a plane, draw a sphere, draw a nurbs surface while playing with the color, and the position.
+You can modify nurbs surfaces, and move the light.
 
 Z/Q/S/D to move the camera, and click and rotate to change the view.
 If move light is ticked, the light will do some circle, then use Z/Q/S/D to increase the height and the distance.
