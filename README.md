@@ -1,6 +1,6 @@
 # Suchiz-Rendring-Engine
 
-Requieres at least OpenGL 3.3, Qt 4.7 and C++11
+Requires at least OpenGL 3.3, Qt 4.7 and C++11
 This is a small 3D Engine made for a university project purpose.
 
 This contains a Blinn-Phong lightning and shadowmaps for the rendering part.
