@@ -11,67 +11,67 @@ QMAKE_CXXFLAGS += -std=c++11
 
 QT += widgets
 
-TARGET = RenduProject
+TARGET = Suchiz-Rendering-Project
 TEMPLATE = app
 
+Surfaces/
+SOURCES += Scene/main.cpp\
+        Scene/mainwindow.cpp \
+    External/glad.c \
+    Objects/cube.cpp \
+    Scene/scene.cpp \
+    Scene/light.cpp \
+    Objects/plane.cpp \
+    Objects/sphere.cpp \
+    Scene/depthmap.cpp \
+    Scene/openglwindow.cpp \
+    Objects/drawableobject.cpp \
+    Surfaces/bspline.cpp \
+    Surfaces/tensorproduct.cpp
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    glad.c \
-    cube.cpp \
-    scene.cpp \
-    light.cpp \
-    plane.cpp \
-    sphere.cpp \
-    depthmap.cpp \
-    openglwindow.cpp \
-    drawableobject.cpp \
-    bspline.cpp \
-    tensorproduct.cpp
+HEADERS  += Scene/mainwindow.h \
+    Scene/shader.h \
+    External/glm/common.hpp \
+    External/glm/exponential.hpp \
+    External/glm/ext.hpp \
+    External/glm/fwd.hpp \
+    External/glm/geometric.hpp \
+    External/glm/glm.hpp \
+    External/glm/integer.hpp \
+    External/glm/mat2x2.hpp \
+    External/glm/mat2x3.hpp \
+    External/glm/mat2x4.hpp \
+    External/glm/mat3x2.hpp \
+    External/glm/mat3x3.hpp \
+    External/glm/mat3x4.hpp \
+    External/glm/mat4x2.hpp \
+    External/glm/mat4x3.hpp \
+    External/glm/mat4x4.hpp \
+    External/glm/matrix.hpp \
+    External/glm/packing.hpp \
+    External/glm/trigonometric.hpp \
+    External/glm/vec2.hpp \
+    External/glm/vec3.hpp \
+    External/glm/vec4.hpp \
+    External/glm/vector_relational.hpp \
+    Objects/cube.h \
+    Scene/camera.h \
+    Scene/scene.h \
+    Scene/light.h \
+    Objects/plane.h \
+    Objects/sphere.h \
+    Scene/depthmap.h \
+    Scene/openglwindow.h \
+    Objects/drawableobject.h \
+    Surfaces/bspline.h \
+    Surfaces/tensorproduct.h
 
-HEADERS  += mainwindow.h \
-    shader.h \
-    glm/common.hpp \
-    glm/exponential.hpp \
-    glm/ext.hpp \
-    glm/fwd.hpp \
-    glm/geometric.hpp \
-    glm/glm.hpp \
-    glm/integer.hpp \
-    glm/mat2x2.hpp \
-    glm/mat2x3.hpp \
-    glm/mat2x4.hpp \
-    glm/mat3x2.hpp \
-    glm/mat3x3.hpp \
-    glm/mat3x4.hpp \
-    glm/mat4x2.hpp \
-    glm/mat4x3.hpp \
-    glm/mat4x4.hpp \
-    glm/matrix.hpp \
-    glm/packing.hpp \
-    glm/trigonometric.hpp \
-    glm/vec2.hpp \
-    glm/vec3.hpp \
-    glm/vec4.hpp \
-    glm/vector_relational.hpp \
-    cube.h \
-    camera.h \
-    scene.h \
-    light.h \
-    plane.h \
-    sphere.h \
-    depthmap.h \
-    openglwindow.h \
-    drawableobject.h \
-    bspline.h \
-    tensorproduct.h
-
-FORMS    += mainwindow.ui
+FORMS    += UI/mainwindow.ui
 
 DISTFILES += \
-    blinnphong.vs \
-    blinnphong.fs \
-    lightshader.vs \
-    lightshader.fs \
-    depthmapshader.vs \
-    depthmapshader.fs
+    Shaders/blinnphong.vs \
+    Shaders/blinnphong.fs \
+    Shaders/lightshader.vs \
+    Shaders/lightshader.fs \
+    Shaders/depthmapshader.vs \
+    Shaders/depthmapshader.fs

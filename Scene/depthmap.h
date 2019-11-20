@@ -3,15 +3,15 @@
 
 #include <iostream>
 #include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include "../External/glm/glm.hpp"
+#include "../External/glm/gtc/matrix_transform.hpp"
+#include "../External/glm/gtc/type_ptr.hpp"
 
 #include <vector>
 
-#include "shader.h"
-#include "drawableobject.h"
-#include "scene.h"
+#include "../Scene/shader.h"
+#include "../Objects/drawableobject.h"
+#include "../Scene/scene.h"
 
 class DepthMap
 {

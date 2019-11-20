@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "scene.h"
+#include "../Scene/scene.h"
 #include <regex>
 
 namespace Ui {

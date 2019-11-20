@@ -3,20 +3,20 @@
 
 #include <iostream>
 #include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include "../External/glm/glm.hpp"
+#include "../External/glm/gtc/matrix_transform.hpp"
+#include "../External/glm/gtc/type_ptr.hpp"
 #include <vector>
 
-#include "openglwindow.h"
-#include "cube.h"
-#include "camera.h"
-#include "shader.h"
-#include "light.h"
-#include "plane.h"
-#include "sphere.h"
-#include "drawableobject.h"
-#include "tensorproduct.h"
+#include "../Scene/openglwindow.h"
+#include "../Objects/cube.h"
+#include "../Scene/camera.h"
+#include "../Scene/shader.h"
+#include "../Scene/light.h"
+#include "../Objects/plane.h"
+#include "../Objects/sphere.h"
+#include "../Objects/drawableobject.h"
+#include "../Surfaces/tensorproduct.h"
 
 class DepthMap;
 class Scene : public OpenGLWindow

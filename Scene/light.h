@@ -1,9 +1,9 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
-#include "cube.h"
-#include "shader.h"
-#include "camera.h"
+#include "../Objects/cube.h"
+#include "../Scene/shader.h"
+#include "../Scene/camera.h"
 
 class Light : public Cube
 {
