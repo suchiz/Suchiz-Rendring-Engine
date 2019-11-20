@@ -3921,7 +3921,11 @@ mainwindow.o: Scene/mainwindow.cpp Scene/mainwindow.h \
 		Surfaces/tensorproduct.h \
 		Surfaces/bspline.h \
 		../../anaconda3/include/qt/QtCore/QString \
-		ui_mainwindow.h
+		ui_mainwindow.h \
+		../../anaconda3/include/qt/QtWidgets/QAction \
+		../../anaconda3/include/qt/QtWidgets/QApplication \
+		../../anaconda3/include/qt/QtWidgets/QButtonGroup \
+		../../anaconda3/include/qt/QtWidgets/QHeaderView
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o Scene/mainwindow.cpp
 
 glad.o: External/glad.c 

@@ -15,7 +15,7 @@ void BSpline::checkParameters(){
 
 std::vector<glm::vec3> BSpline::computePoint(float du, std::vector<float> w){
     std::vector<glm::vec3> calculatedPoints;
-    float start, end;
+    float start = 0, end = 0;
     if (this->knotVectType == KVType::UNIFORM){
         start = this->order-1;
         end = getNBControlPoints();
@@ -35,6 +35,7 @@ std::vector<glm::vec3> BSpline::computePoint(float du, std::vector<float> w){
                 float denom = knotVect[offset+k+i] - knotVect[offset+1+i];
                 interestPointsVect[i] = interestPointsVect[i] * ((knotVect[offset+k+i] - u) / denom) +
                                 interestPointsVect[i+1] * ((u - knotVect[offset+1+i]) / denom);
+                interestPointsVect[i] *= w[i];
             }
             --k;
             ++offset;
@@ -44,19 +45,16 @@ std::vector<glm::vec3> BSpline::computePoint(float du, std::vector<float> w){
     return calculatedPoints;
 }
 
-void BSpline::draw(float du){
-    //std::vector<glm::vec3> curvePoints = computePoint(du);
-}
 
 void BSpline::printControlPointsVect(){
-    for (int i = 0; i < this->controlPointsVect.size(); ++i)
+    for (unsigned int i = 0; i < this->controlPointsVect.size(); ++i)
         std::cout << "[" << this->controlPointsVect[i].x << "," <<
                 this->controlPointsVect[i].y << "," <<
                 this->controlPointsVect[i].z << "]" << std::endl;
 }
 
 void BSpline::printKnotVect(){
-    for (int i = 0; i < this->knotVect.size(); ++i)
+    for (unsigned int i = 0; i < this->knotVect.size(); ++i)
         std::cout << this->knotVect[i];
     std::cout<<std::endl;
 }

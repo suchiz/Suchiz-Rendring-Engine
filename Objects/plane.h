@@ -35,7 +35,7 @@ public:
 
 protected:
     unsigned int VBO;
-    float vertices[54];
+    float vertices[36];
     glm::vec3 color;
     glm::vec3 position;
     glm::mat4 model;

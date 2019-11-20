@@ -30,8 +30,7 @@ public:
     BSpline(std::vector<glm::vec3> controlPointsVect, KVType knotVectType, int order);
 
     //METHODS
-    void draw(float du);
-    std::vector<glm::vec3>  computePoint(float du, std::vector<float> w);
+    std::vector<glm::vec3> computePoint(float du, std::vector<float> w);
 
     //DEBUG
     void printKnotVect();
