@@ -14,7 +14,6 @@ QT += widgets
 TARGET = Suchiz-Rendering-Project
 TEMPLATE = app
 
-Surfaces/
 SOURCES += Scene/main.cpp\
         Scene/mainwindow.cpp \
     External/glad.c \

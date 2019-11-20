@@ -1,9 +1,9 @@
 #ifndef TENSORPRODUCT_H
 #define TENSORPRODUCT_H
 
-#include "bspline.h"
+#include "../Surfaces/bspline.h"
 #include <QString>
-#include "drawableobject.h"
+#include "../Objects/drawableobject.h"
 
 class TensorProduct: DrawableObject
 {
