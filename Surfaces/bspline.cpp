@@ -35,7 +35,7 @@ std::vector<glm::vec3> BSpline::computePoint(float du, std::vector<float> w){
                 float denom = knotVect[offset+k+i] - knotVect[offset+1+i];
                 interestPointsVect[i] = interestPointsVect[i] * ((knotVect[offset+k+i] - u) / denom) +
                                 interestPointsVect[i+1] * ((u - knotVect[offset+1+i]) / denom);
-                interestPointsVect[i] *= w[i];
+                //interestPointsVect[i] *= w[i];
             }
             --k;
             ++offset;

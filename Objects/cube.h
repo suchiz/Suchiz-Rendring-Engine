@@ -23,7 +23,7 @@ public:
     void copyData(DrawableObject obj);
 
     //SETTERS
-    void setPosition(glm::vec3 pos) {model = glm::translate(model, pos); position = pos;}
+    void setPosition(glm::vec3 pos) {model = glm::translate(glm::mat4(1.0f), pos); position = pos;}
     void setRotation(float angle, glm::vec3 axis){model = glm::rotate(model, glm::radians(angle), axis);}
     void setColor(glm::vec3 c) {color = c;}
 

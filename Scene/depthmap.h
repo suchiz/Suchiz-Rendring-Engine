@@ -29,8 +29,8 @@ private:
     unsigned int FBO, depthTexture;
     glm::mat4 lightSpaceMatrix;
     Shader *depthShader;
-    int width = 1024;
-    int height = 1024;
+    int width = 2048;
+    int height = 2048;
     float borderColor[4] = { 1.0, 1.0, 1.0, 1.0 };
     float near_plane = 1.0f, far_plane = 7.5f;
 };
