@@ -16,7 +16,10 @@
 class DepthMap
 {
 public:
+    //CONSTRUTORS
     DepthMap(Scene *scene);
+
+    //OPENGL FUNCTIONS
     void generateDepthMap();
     void bindTexture();
 

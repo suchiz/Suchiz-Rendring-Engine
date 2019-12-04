@@ -19,15 +19,15 @@ Sphere::Sphere(float size)
             sectorAngle = j * sectorStep;           // starting from 0 to 2pi
             x = xy * cosf(sectorAngle);             // r * cos(u) * cos(v)
             y = xy * sinf(sectorAngle);             // r * cos(u) * sin(v)
-            interleavedVertices.push_back(x*size);
-            interleavedVertices.push_back(y*size);
-            interleavedVertices.push_back(z*size);
+            vertices.push_back(x*size);
+            vertices.push_back(y*size);
+            vertices.push_back(z*size);
             nx = x * lengthInv;
             ny = y * lengthInv;
             nz = z * lengthInv;
-            interleavedVertices.push_back(nx);
-            interleavedVertices.push_back(ny);
-            interleavedVertices.push_back(nz);
+            vertices.push_back(nx);
+            vertices.push_back(ny);
+            vertices.push_back(nz);
         }
     }
 
@@ -46,10 +46,7 @@ Sphere::Sphere(float size)
 
     glad_glGenBuffers(1, &VBO);
     glad_glGenBuffers(1, &EBO);
-    model = glm::mat4(1.0f);
     objectType = SPHERE;
-    setColor(glm::vec3(1,1,1));
-    setPosition(glm::vec3(0,0,0));
 }
 
 void Sphere::addIndices(unsigned int i1, unsigned int i2, unsigned int i3)
@@ -62,7 +59,7 @@ void Sphere::addIndices(unsigned int i1, unsigned int i2, unsigned int i3)
 void Sphere::bind()
 {
     glad_glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glad_glBufferData(GL_ARRAY_BUFFER, interleavedVertices.size()*sizeof(float), interleavedVertices.data(), GL_STATIC_DRAW);
+    glad_glBufferData(GL_ARRAY_BUFFER, vertices.size()*sizeof(float), vertices.data(), GL_STATIC_DRAW);
 
     glad_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glad_glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size()*sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);

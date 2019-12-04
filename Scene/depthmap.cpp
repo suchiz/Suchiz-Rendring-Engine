@@ -25,10 +25,7 @@ void DepthMap::generateDepthMap()
 {
     glm::vec3 lightPos = scene->getLight().getPosition();
     glm::mat4 lightProjection, lightView;
-    std::vector<Cube> cubeToDraw = scene->getCubeToDraw();
-    std::vector<Sphere> sphereToDraw = scene->getSphereToDraw();
-    std::vector<Plane> planeToDraw = scene->getPlaneToDraw();
-    std::vector<TensorProduct> surfaceToDraw = scene->getSurfaceToDraw();
+    std::vector<DrawableObject*> objectsToDraw = scene->getObjectsToDraw();
 
     lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
     lightView = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
@@ -40,23 +37,11 @@ void DepthMap::generateDepthMap()
     glad_glViewport(0, 0, width, height);
     glad_glBindFramebuffer(GL_FRAMEBUFFER, FBO);
         glad_glClear(GL_DEPTH_BUFFER_BIT);
-        for(unsigned int i(0); i < cubeToDraw.size(); ++i){
-            depthShader->setMat4("model", cubeToDraw[i].getModel());
-            cubeToDraw[i].draw();
+        for(unsigned int i(0); i < objectsToDraw.size(); ++i){
+            depthShader->setMat4("model", objectsToDraw[i]->getModel());
+            objectsToDraw[i]->draw();
         }
-        for(unsigned int i(0); i < planeToDraw.size(); ++i){
-            depthShader->setMat4("model", planeToDraw[i].getModel());
-            planeToDraw[i].draw();
-        }
-        for(unsigned int i(0); i < sphereToDraw.size(); ++i){
-            depthShader->setMat4("model", sphereToDraw[i].getModel());
-            sphereToDraw[i].draw();
-        }
-        for(unsigned int i(0); i < surfaceToDraw.size(); ++i){
-            depthShader->setMat4("model", surfaceToDraw[i].getModel());
-            surfaceToDraw[i].draw();
-        }
-        glad_glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glad_glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void DepthMap::bindTexture()

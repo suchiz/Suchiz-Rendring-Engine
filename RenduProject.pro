@@ -24,9 +24,9 @@ SOURCES += Scene/main.cpp\
     Objects/sphere.cpp \
     Scene/depthmap.cpp \
     Scene/openglwindow.cpp \
-    Objects/drawableobject.cpp \
     Surfaces/bspline.cpp \
-    Surfaces/tensorproduct.cpp
+    Surfaces/tensorproduct.cpp \
+    Objects/capsule.cpp
 
 HEADERS  += Scene/mainwindow.h \
     Scene/shader.h \
@@ -63,14 +63,15 @@ HEADERS  += Scene/mainwindow.h \
     Scene/openglwindow.h \
     Objects/drawableobject.h \
     Surfaces/bspline.h \
-    Surfaces/tensorproduct.h
+    Surfaces/tensorproduct.h \
+    Objects/capsule.h
 
 FORMS    += UI/mainwindow.ui
 
 DISTFILES += \
     Shaders/blinnphong.vs \
-    Shaders/blinnphong.fs \
     Shaders/lightshader.vs \
     Shaders/lightshader.fs \
     Shaders/depthmapshader.vs \
-    Shaders/depthmapshader.fs
+    Shaders/depthmapshader.fs \
+    Shaders/blinnphong.fs

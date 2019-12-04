@@ -27,13 +27,14 @@ private slots:
     void on_modifyButton_clicked();
 
 private:
-    void createAddBox();
+    //METHODS
     float checkFloat_1(QString ref);
     float checkFloat_0(QString ref);
     int checkInt_3(QString ref);
     void clearEditLines();
-    void createEditSurfaceWindow(TensorProduct tp);
 
+    //MODIFICIATION NURBS POP UP
+    void createEditSurfaceWindow(TensorProduct tp);
     QWidget *editPopup;
     QComboBox *xSelect, *ySelect;
     QLineEdit *weightEdit, *xNewEdit, *yNewEdit, *zNewEdit;
@@ -41,20 +42,20 @@ private:
     QCheckBox *moveManually;
     QPushButton *modifyButton;
 
-
+    //ADD BOX
+    void createAddBox();
     QLabel *addLabel, *sizeLabel;
     QLabel *rotationLabel;
     QLabel *colorLabel;
     QLabel *positionLabel;
     QComboBox *objectComboBox;
     QPushButton *addButton;
-
-
     QLineEdit *r, *g, *b;
     QLineEdit *x, *y, *z;
     QLineEdit *roll, *pitch, *yaw;
     QLineEdit *sizeEdit;
 
+    //NURBS BOX
     void createNURBSBox();
     QLabel *nurbsLabel, *sizeNurbsLabel, *nameNurbsLabel, *positionNurbsLabel, *colorNurbsLabel;
     QLineEdit *widthNurbsEdit, *heightNurbsEdit, *nameNurbsEdit;
@@ -62,6 +63,7 @@ private:
     QPushButton *editNurbsButton;
     QComboBox *surfaceCBox;
 
+    //MAIN WINDOW
     Ui::MainWindow *ui;
     Scene *scene;
     QWidget *mainContainer;

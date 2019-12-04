@@ -58,6 +58,7 @@ void MainWindow::on_moveLightCheckBox_toggled(bool checked)
     scene->setMoveLight(checked);
     scene->setFocus();
 }
+
 void MainWindow::on_demoButton_clicked()
 {
     scene->clearScene();
@@ -68,18 +69,18 @@ void MainWindow::on_nurbsButton_clicked()
 {
     if (!nameNurbsEdit->text().isEmpty()){
         std::vector<glm::vec3> pt;
-        TensorProduct tp = TensorProduct(nameNurbsEdit->text(),
+        TensorProduct *tp = new TensorProduct(nameNurbsEdit->text(),
                                          std::pair<int, int> {checkInt_3(heightNurbsEdit->text()),
                                                               checkInt_3(widthNurbsEdit->text())},
                                          pt);
-        tp.setPosition(glm::vec3(checkFloat_0(xNurbs->text()),
+        tp->setPosition(glm::vec3(checkFloat_0(xNurbs->text()),
                                  checkFloat_0(yNurbs->text()),
                                  checkFloat_0(zNurbs->text())));
-        tp.setColor(glm::vec3(checkFloat_1(rNurbs->text()),
+        tp->setColor(glm::vec3(checkFloat_1(rNurbs->text()),
                               checkFloat_1(gNurbs->text()),
                               checkFloat_1(bNurbs->text())));
         surfaceCBox->addItem(nameNurbsEdit->text());
-        scene->addSurface(tp);
+        scene->addObject(tp);
         clearEditLines();
     } else
         QMessageBox::information(this, "Name is empty", "Insert at least a name");
@@ -88,27 +89,27 @@ void MainWindow::on_nurbsButton_clicked()
 
 void MainWindow::on_editButton_clicked()
 {
-    if (scene->getSurfaceToDraw().size()>0){
-        TensorProduct tp = scene->getSurfaceToDraw()[surfaceCBox->currentIndex()];
-        createEditSurfaceWindow(tp);
-        editPopup->show();
-    }
+//    if (scene->getSurfaceToDraw().size()>0){
+//        TensorProduct tp = scene->getSurfaceToDraw()[surfaceCBox->currentIndex()];
+//        createEditSurfaceWindow(tp);
+//        editPopup->show();
+//    }
     scene->setFocus();
 }
 
 void MainWindow::on_modifyButton_clicked()
 {
-    TensorProduct tp = scene->getSurfaceToDraw()[surfaceCBox->currentIndex()];
-    std::vector<glm::vec3> pts = tp.getControlPointsVect();
-    glm::vec3 newPt = glm::vec3(checkFloat_0(xNewEdit->text()),
-                                checkFloat_0(yNewEdit->text()),
-                                checkFloat_0(zNewEdit->text()));
-    pts[xSelect->currentIndex()*tp.getSize().first+ySelect->currentIndex()] = newPt;
-    TensorProduct tp2 = TensorProduct(tp.getName(), tp.getSize(), pts);
-    tp2.setColor(tp.getColor());
-    tp2.setPosition(tp.getPosition());
-    scene->addSurface(tp2);
-    scene->delSurface(surfaceCBox->currentIndex());
+//    TensorProduct tp = scene->getSurfaceToDraw()[surfaceCBox->currentIndex()];
+//    std::vector<glm::vec3> pts = tp.getControlPointsVect();
+//    glm::vec3 newPt = glm::vec3(checkFloat_0(xNewEdit->text()),
+//                                checkFloat_0(yNewEdit->text()),
+//                                checkFloat_0(zNewEdit->text()));
+//    pts[xSelect->currentIndex()*tp.getSize().first+ySelect->currentIndex()] = newPt;
+//    TensorProduct tp2 = TensorProduct(tp.getName(), tp.getSize(), pts);
+//    tp2.setColor(tp.getColor());
+//    tp2.setPosition(tp.getPosition());
+//    scene->addSurface(tp2);
+//    scene->delSurface(surfaceCBox->currentIndex());
 
     editPopup->close();
 }
@@ -116,41 +117,41 @@ void MainWindow::on_modifyButton_clicked()
 void MainWindow::on_addButton_clicked()
 {
     if (objectComboBox->currentText().toStdString() == "CUBE"){
-        Cube cube(checkFloat_1(sizeEdit->text()));
-        cube.setPosition(glm::vec3(checkFloat_0(x->text()),
+        Cube *cube = new Cube(checkFloat_1(sizeEdit->text()));
+        cube->setPosition(glm::vec3(checkFloat_0(x->text()),
                                    checkFloat_0(y->text()),
                                    checkFloat_0(z->text())));
-        cube.setColor(glm::vec3(checkFloat_1(r->text()),
+        cube->setColor(glm::vec3(checkFloat_1(r->text()),
                                 checkFloat_1(g->text()),
                                 checkFloat_1(b->text())));
-        cube.setRotation(checkFloat_0(roll->text()), glm::vec3(1.0, 0, 0));
-        cube.setRotation(checkFloat_0(pitch->text()), glm::vec3(0, 1.0, 0));
-        cube.setRotation(checkFloat_0(yaw->text()), glm::vec3(0, 0, 1.0));
-        scene->addCube(cube);
+        cube->setRotation(checkFloat_0(roll->text()), glm::vec3(1.0, 0, 0));
+        cube->setRotation(checkFloat_0(pitch->text()), glm::vec3(0, 1.0, 0));
+        cube->setRotation(checkFloat_0(yaw->text()), glm::vec3(0, 0, 1.0));
+        scene->addObject(cube);
     } else if (objectComboBox->currentText().toStdString() == "PLANE"){
-        Plane plane(checkFloat_1(sizeEdit->text()));
-        plane.setPosition(glm::vec3(checkFloat_0(x->text()),
+        Plane *plane = new Plane(checkFloat_1(sizeEdit->text()));
+        plane->setPosition(glm::vec3(checkFloat_0(x->text()),
                                     checkFloat_0(y->text()),
                                     checkFloat_0(z->text())));
-        plane.setColor(glm::vec3(checkFloat_1(r->text()),
+        plane->setColor(glm::vec3(checkFloat_1(r->text()),
                                  checkFloat_1(g->text()),
                                  checkFloat_1(b->text())));
-        plane.setRotation(checkFloat_0(roll->text()), glm::vec3(1.0, 0, 0));
-        plane.setRotation(checkFloat_0(pitch->text()), glm::vec3(0, 1.0, 0));
-        plane.setRotation(checkFloat_0(yaw->text()), glm::vec3(0, 0, 1.0));
-        scene->addPlane(plane);
+        plane->setRotation(checkFloat_0(roll->text()), glm::vec3(1.0, 0, 0));
+        plane->setRotation(checkFloat_0(pitch->text()), glm::vec3(0, 1.0, 0));
+        plane->setRotation(checkFloat_0(yaw->text()), glm::vec3(0, 0, 1.0));
+        scene->addObject(plane);
     } else if (objectComboBox->currentText().toStdString() == "SPHERE"){
-        Sphere sphere(checkFloat_1(sizeEdit->text()));
-        sphere.setPosition(glm::vec3(checkFloat_0(x->text()),
+        Sphere *sphere = new Sphere(checkFloat_1(sizeEdit->text()));
+        sphere->setPosition(glm::vec3(checkFloat_0(x->text()),
                                      checkFloat_0(y->text()),
                                      checkFloat_0(z->text())));
-        sphere.setColor(glm::vec3(checkFloat_1(r->text()),
+        sphere->setColor(glm::vec3(checkFloat_1(r->text()),
                                   checkFloat_1(g->text()),
                                   checkFloat_1(b->text())));
-        sphere.setRotation(checkFloat_0(roll->text()), glm::vec3(1.0, 0, 0));
-        sphere.setRotation(checkFloat_0(pitch->text()), glm::vec3(0, 1.0, 0));
-        sphere.setRotation(checkFloat_0(yaw->text()), glm::vec3(0, 0, 1.0));
-        scene->addSphere(sphere);
+        sphere->setRotation(checkFloat_0(roll->text()), glm::vec3(1.0, 0, 0));
+        sphere->setRotation(checkFloat_0(pitch->text()), glm::vec3(0, 1.0, 0));
+        sphere->setRotation(checkFloat_0(yaw->text()), glm::vec3(0, 0, 1.0));
+        scene->addObject(sphere);
     }
     clearEditLines();
     scene->setFocus();
@@ -286,8 +287,6 @@ void MainWindow::createEditSurfaceWindow(TensorProduct tp)
     layout->addWidget(ySelect, 0, 2);
     layout->addWidget(newPositionLabel, 1, 0);
     layout->addWidget(xNewEdit, 2, 0);layout->addWidget(yNewEdit, 2, 1);layout->addWidget(zNewEdit, 2, 2);
-    //    layout->addWidget(weightLabel, 3, 0);
-    //    layout->addWidget(weightEdit, 3, 1);
     layout->addWidget(modifyButton, 3, 1);
 
     editPopup->setLayout(layout);

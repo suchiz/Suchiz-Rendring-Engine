@@ -32,14 +32,11 @@ public:
     void keyPressEvent( QKeyEvent *keyEvent );
     void mouseMoveEvent(QMouseEvent *mouseEvent);
     void wheelEvent(QWheelEvent *wheelEvent);
+
+    //SCENE FUNCTIONS
     void createDemo();
     void clearScene();
-
-    void addCube(Cube cube){cubeToDraw.push_back(cube);}
-    void addPlane(Plane plane){planeToDraw.push_back(plane);}
-    void addSphere(Sphere sphere){sphereToDraw.push_back(sphere);}
-    void addSurface(TensorProduct tp){surfaceToDraw.push_back(tp);}
-    void delSurface(int i){surfaceToDraw.erase(surfaceToDraw.begin()+i);}
+    void addObject(DrawableObject *object){objectsToDraw.push_back(object);}
 
     //UI FUNCTIONS
     void setMoveLight(bool checked){ moveLight = checked;}
@@ -47,24 +44,20 @@ public:
 
     //GETTERS
     Light& getLight() {return *light;}
-    std::vector<Cube> getCubeToDraw() {return cubeToDraw;}
-    std::vector<Sphere> getSphereToDraw() {return sphereToDraw;}
-    std::vector<Plane> getPlaneToDraw() {return planeToDraw;}
-    std::vector<TensorProduct> getSurfaceToDraw() {return surfaceToDraw;}
+    std::vector<DrawableObject*> getObjectsToDraw() {return objectsToDraw;}
+
 
 private:
     //OPENGL ATTRIBUTES
     unsigned int objectsVAO;
-    unsigned lightsVAO;
     Shader *objectShader;
     Shader *lightShader;
     Camera *camera;
     Light *light;
     DepthMap *depthmap;
-    std::vector<Cube> cubeToDraw;
-    std::vector<Plane> planeToDraw;
-    std::vector<Sphere> sphereToDraw;
-    std::vector<TensorProduct> surfaceToDraw;
+
+    //SCENE ATTRIBUTES
+    std::vector<DrawableObject*> objectsToDraw;
 
     float lastX = size().width() / 2.0f;
     float lastY = size().height() / 2.0f;

@@ -47,24 +47,15 @@ Cube::Cube(float size)
     };
 
     for (int i(0); i < 216; ++i)
-        vertices[i] = init[i];
+        vertices.push_back(init[i]);
     glad_glGenBuffers(1, &VBO);
-    model = glm::mat4(1.0f);
     objectType = CUBE;
-    setColor(glm::vec3(1,1,1));
-    setPosition(glm::vec3(0,0,0));
-}
-
-void Cube::copyData(DrawableObject obj){
-    setPosition(obj.getPosition());
-    setColor(obj.getColor());
-    model = obj.getModel();
 }
 
 void Cube::bind()
 {
     glad_glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glad_glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glad_glBufferData(GL_ARRAY_BUFFER, vertices.size()*sizeof(float), vertices.data(), GL_STATIC_DRAW);
 }
 
 void Cube::enableVertices(unsigned int position)

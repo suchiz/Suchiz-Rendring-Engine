@@ -7,16 +7,15 @@ TensorProduct::TensorProduct(QString name, std::pair<int, int> size, std::vector
     this->knotVectType = KVType::OPEN_UNIFORM;
     glad_glGenBuffers(1, &VBO);
     glad_glGenBuffers(1, &EBO);
-    model = glm::mat4(1.0f);
-    setColor(glm::vec3(1,1,1));
-    setPosition(glm::vec3(0,0,0));
 
     for (int i(0); i < size.first*size.second; ++i)
         weights.push_back(1.0);
+
     if (controlPoints.size()>0)
         controlPointsVect = controlPoints;
     else
         buildControlPoints();
+
     checkParameters();
     computePoint(0.2, 0.2);
     buildGeometry();
@@ -134,13 +133,13 @@ void TensorProduct::buildGeometry()
 void TensorProduct::buildinterVertices()
 {
         for (unsigned int i = 0; i < normals.size(); i++){
-            interVertices.push_back(points[i].x);
-            interVertices.push_back(points[i].y);
-            interVertices.push_back(points[i].z);
+            vertices.push_back(points[i].x);
+            vertices.push_back(points[i].y);
+            vertices.push_back(points[i].z);
 
-            interVertices.push_back(normals[i].x);
-            interVertices.push_back(normals[i].y);
-            interVertices.push_back(normals[i].z);
+            vertices.push_back(normals[i].x);
+            vertices.push_back(normals[i].y);
+            vertices.push_back(normals[i].z);
         }
 }
 
@@ -163,7 +162,7 @@ void TensorProduct::buildDemo()
 void TensorProduct::bind()
 {
     glad_glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glad_glBufferData(GL_ARRAY_BUFFER, interVertices.size()*sizeof(float), interVertices.data(), GL_STATIC_DRAW);
+    glad_glBufferData(GL_ARRAY_BUFFER, vertices.size()*sizeof(float), vertices.data(), GL_STATIC_DRAW);
 
     glad_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glad_glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size()*sizeof (unsigned int), indices.data(), GL_STATIC_DRAW);

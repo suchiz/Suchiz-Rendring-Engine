@@ -21,29 +21,16 @@ public:
     void draw();
     void bind();
 
-    //SETTERS
-    void setPosition(glm::vec3 pos) {model = glm::translate(model, pos); position = pos;}
-    void setRotation(float angle, glm::vec3 axis){model = glm::rotate(model, glm::radians(angle), axis);}
-    void setColor(glm::vec3 c) {color = c;}
-
-    //GETTERS
-    glm::vec3 getPosition() const {return position;}
-    glm::mat4 getModel() const {return model;}
-    glm::vec3 getColor() const {return color;}
-
-protected:
+private:
     //OPENGL ATTRIBUTES
     unsigned int VBO, EBO;
-    glm::vec3 color;
-    glm::vec3 position;
-    glm::mat4 model;
+    std::vector<unsigned int> indices;
 
     //SPHERE ATTRIBUTES
-    int sectorCount = 36;                        // longitude, # of slices
+    int sectorCount = 36;
     int stackCount = 18;
-    std::vector<unsigned int> indices;
-    std::vector<float> interleavedVertices;
 
+    //METHODS
     void addIndices(unsigned int i1, unsigned int i2, unsigned int i3);
 
 };
