@@ -13,7 +13,7 @@ class Plane: public DrawableObject
 {
 public:
     //CONSTRUCTORS
-    Plane(float size = 1.0f);
+    Plane(QString name);
 
     //OPENGL FUNCTIONS
     void enableVertices(unsigned int position);

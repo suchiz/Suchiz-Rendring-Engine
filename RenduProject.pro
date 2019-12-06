@@ -26,7 +26,8 @@ SOURCES += Scene/main.cpp\
     Scene/openglwindow.cpp \
     Surfaces/bspline.cpp \
     Surfaces/tensorproduct.cpp \
-    Objects/capsule.cpp
+    Objects/capsule.cpp \
+    UI/adddialog.cpp
 
 HEADERS  += Scene/mainwindow.h \
     Scene/shader.h \
@@ -64,9 +65,11 @@ HEADERS  += Scene/mainwindow.h \
     Objects/drawableobject.h \
     Surfaces/bspline.h \
     Surfaces/tensorproduct.h \
-    Objects/capsule.h
+    Objects/capsule.h \
+    UI/adddialog.h
 
-FORMS    += UI/mainwindow.ui
+FORMS    += UI/mainwindow.ui \
+    UI/adddialog.ui
 
 DISTFILES += \
     Shaders/blinnphong.vs \

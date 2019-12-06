@@ -60,13 +60,14 @@ void Scene::paintGL()
 }
 
 void Scene::createDemo(){
-    Sphere *sphere = new Sphere(1.0);
+    Sphere *sphere = new Sphere("Sphere Demo");
     sphere->setColor(glm::vec3(0.90f, 0.31f, 0.3f));
     sphere->setPosition(glm::vec3(1.0f,2.0f,0.0f));
-    Plane *plane = new Plane(5.0);
+    Plane *plane = new Plane("Plane Demo");
+    plane->setSize(glm::vec3(7.0f));
     plane->setColor(glm::vec3(0.5f, 0.7f, 0.5f));
     plane->setPosition(glm::vec3(1.0f,1.0f,0.0f));
-    Cube *cube = new Cube(1.0);
+    Cube *cube = new Cube("Cube Demo");
     cube->setColor(glm::vec3(0.63f, 0.31f, 0.71f));
     cube->setPosition(glm::vec3(1.0f,3.0f,2.0f));
 

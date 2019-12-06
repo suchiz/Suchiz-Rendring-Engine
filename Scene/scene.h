@@ -37,6 +37,7 @@ public:
     void createDemo();
     void clearScene();
     void addObject(DrawableObject *object){objectsToDraw.push_back(object);}
+    void deleteObject(int index){objectsToDraw.erase(objectsToDraw.begin() + index);}
 
     //UI FUNCTIONS
     void setMoveLight(bool checked){ moveLight = checked;}

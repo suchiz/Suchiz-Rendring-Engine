@@ -35,7 +35,7 @@ private:
     int width = 2048;
     int height = 2048;
     float borderColor[4] = { 1.0, 1.0, 1.0, 1.0 };
-    float near_plane = 1.0f, far_plane = 7.5f;
+    float near_plane = 1.0f, far_plane = 50.0f;
 };
 
 #endif // DEPTHMAP_H

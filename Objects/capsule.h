@@ -8,7 +8,7 @@ class Capsule : public DrawableObject
 {
 public:
     //CONSTRUCTORS
-    Capsule(float size = 1.0f);
+    Capsule(QString name);
 
     //OPENGL FUNCTIONS
     void enableVertices(unsigned int position);

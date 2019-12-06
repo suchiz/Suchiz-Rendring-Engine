@@ -1,8 +1,8 @@
 #include "capsule.h"
 
-Capsule::Capsule(float size)
+Capsule::Capsule(QString name)
 {
-
+    this->name = name;
 }
 
 void Capsule::enableVertices(unsigned int position)

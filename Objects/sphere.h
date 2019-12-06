@@ -13,7 +13,7 @@
 class Sphere: public DrawableObject
 {
 public:
-    Sphere(float size = 1.0f);
+    Sphere(QString name);
 
     //OPENGL FUNCTIONS
     void enableVertices(unsigned int position);
@@ -21,10 +21,15 @@ public:
     void draw();
     void bind();
 
+    //SPHERE FUNCTION
+    void buildTriangulation();
+
 private:
     //OPENGL ATTRIBUTES
     unsigned int VBO, EBO;
     std::vector<unsigned int> indices;
+    std::vector<float> normals;
+    std::vector<float> triangledVertices;
 
     //SPHERE ATTRIBUTES
     int sectorCount = 36;

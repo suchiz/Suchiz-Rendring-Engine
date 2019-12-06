@@ -1,9 +1,10 @@
 #include "sphere.h"
 
-Sphere::Sphere(float size)
+Sphere::Sphere(QString name)
 {
 
     const float PI = 3.1415926f;
+    float size = 1.0f;
     float x, y, z, xy;                              // vertex position
     float nx, ny, nz, lengthInv = 1.0f / size;    // normal
 
@@ -19,15 +20,15 @@ Sphere::Sphere(float size)
             sectorAngle = j * sectorStep;           // starting from 0 to 2pi
             x = xy * cosf(sectorAngle);             // r * cos(u) * cos(v)
             y = xy * sinf(sectorAngle);             // r * cos(u) * sin(v)
-            vertices.push_back(x*size);
-            vertices.push_back(y*size);
-            vertices.push_back(z*size);
+            vertices.push_back(x);
+            vertices.push_back(y);
+            vertices.push_back(z);
             nx = x * lengthInv;
             ny = y * lengthInv;
             nz = z * lengthInv;
-            vertices.push_back(nx);
-            vertices.push_back(ny);
-            vertices.push_back(nz);
+            normals.push_back(nx);
+            normals.push_back(ny);
+            normals.push_back(nz);
         }
     }
 
@@ -47,6 +48,7 @@ Sphere::Sphere(float size)
     glad_glGenBuffers(1, &VBO);
     glad_glGenBuffers(1, &EBO);
     objectType = SPHERE;
+    this->name = name;
 }
 
 void Sphere::addIndices(unsigned int i1, unsigned int i2, unsigned int i3)
@@ -63,6 +65,16 @@ void Sphere::bind()
 
     glad_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glad_glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size()*sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
+}
+
+void Sphere::buildTriangulation()
+{
+    for (unsigned int i(0); i < indices.size(); i += 3){
+        triangledVertices.push_back(indices[i]);
+        triangledVertices.push_back(indices[i+1]);
+        triangledVertices.push_back(indices[i+2]);
+    }
+
 }
 
 void Sphere::enableVertices(unsigned int position)

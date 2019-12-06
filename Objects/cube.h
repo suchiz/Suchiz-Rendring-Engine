@@ -13,7 +13,7 @@ class Cube: public DrawableObject
 {
 public:
     //CONSTRUCTORS
-    Cube(float size = 1.0f);
+    Cube(QString name);
 
     //OPENGL FUNCTIONS
     void enableVertices(unsigned int position);
