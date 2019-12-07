@@ -38,9 +38,9 @@ void AddDialog::on_okButton_clicked()
     glm::vec3 rotation = glm::vec3(checkFloat_0(ui->rollLineEdit->text()),
                                    checkFloat_0(ui->pitchLineEdit->text()),
                                    checkFloat_0(ui->yawLineEdit->text()));
-    glm::vec3 size = glm::vec3(checkFloat_0(ui->xSizeLineEdit->text()),
-                               checkFloat_0(ui->ySizeLineEdit->text()),
-                               checkFloat_0(ui->zSizeLineEdit->text()));
+    glm::vec3 size = glm::vec3(checkFloat_1(ui->xSizeLineEdit->text()),
+                               checkFloat_1(ui->ySizeLineEdit->text()),
+                               checkFloat_1(ui->zSizeLineEdit->text()));
     QString name = ui->nameLineEdit->text();
     if (ui->objectsComboBox->currentText().toStdString() == "CUBE"){
         Cube *cube = new Cube(name);
@@ -64,7 +64,6 @@ void AddDialog::on_okButton_clicked()
         sphere->setRotation(rotation);
         mw->addSceneObject(sphere);
     }
-    mw->updateObjectList();
     close();
 }
 

@@ -19,6 +19,15 @@ MainWindow::MainWindow(QWidget *parent) :
     scene->setFocus();
 }
 
+void MainWindow::addSceneObject(DrawableObject *object)
+{
+    scene->addObject(object);
+    QListWidgetItem *item = new QListWidgetItem;
+    item->setText(object->getName());
+    item->setCheckState(Qt::Unchecked);
+    ui->objectListView->addItem(item);
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
@@ -34,7 +43,7 @@ void MainWindow::on_demoButton_clicked()
 {
     scene->clearScene();
     scene->createDemo();
-    updateObjectList();
+    clearObjectList();
     scene->setFocus();
 }
 //void MainWindow::on_nurbsButton_clicked()
@@ -86,19 +95,37 @@ void MainWindow::on_deleteButton_clicked()
 {
     if (scene->getObjectsToDraw().size() > 0){
         scene->deleteObject(ui->objectListView->currentRow());
-        updateObjectList();
+        deleteObjectFromList(ui->objectListView->currentRow());
     }
     scene->setFocus();
 }
 
-void MainWindow::updateObjectList()
+void MainWindow::deleteObjectFromList(int ind)
+{
+    ui->objectListView->model()->removeRow(ind);
+}
+
+void MainWindow::clearObjectList()
 {
     ui->objectListView->clear();
-    for (unsigned int i(0); i < scene->getObjectsToDraw().size(); ++i)
-        ui->objectListView->addItem(scene->getObjectsToDraw()[i]->getName());
+    for (unsigned int i(0); i < scene->getObjectsToDraw().size(); ++i){
+        QListWidgetItem *item = new QListWidgetItem;
+        item->setText(scene->getObjectsToDraw()[i]->getName());
+        item->setCheckState(Qt::Unchecked);
+        ui->objectListView->addItem(item);
+    }
 }
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 {
     scene->setFocus();
+}
+
+void MainWindow::on_objectListView_itemClicked(QListWidgetItem *item)
+{
+    if (scene->getObjectsToDraw().size() > 0)
+        if (item->checkState() == Qt::Checked)
+            scene->getObjectsToDraw()[ui->objectListView->row(item)]->setWire(true);
+        else
+            scene->getObjectsToDraw()[ui->objectListView->row(item)]->setWire(false);
 }

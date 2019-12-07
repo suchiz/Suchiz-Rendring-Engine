@@ -26,9 +26,9 @@ Sphere::Sphere(QString name)
             nx = x * lengthInv;
             ny = y * lengthInv;
             nz = z * lengthInv;
-            normals.push_back(nx);
-            normals.push_back(ny);
-            normals.push_back(nz);
+            vertices.push_back(nx);
+            vertices.push_back(ny);
+            vertices.push_back(nz);
         }
     }
 
@@ -67,16 +67,6 @@ void Sphere::bind()
     glad_glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size()*sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
 }
 
-void Sphere::buildTriangulation()
-{
-    for (unsigned int i(0); i < indices.size(); i += 3){
-        triangledVertices.push_back(indices[i]);
-        triangledVertices.push_back(indices[i+1]);
-        triangledVertices.push_back(indices[i+2]);
-    }
-
-}
-
 void Sphere::enableVertices(unsigned int position)
 {
     glad_glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
@@ -93,6 +83,9 @@ void Sphere::draw()
     bind();
     enableVertices(0);
     enableNormals(1);
-    glad_glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+    if (wire)
+        glad_glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+    else
+        glad_glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
     glad_glDrawElements(GL_TRIANGLES, (unsigned int)indices.size(), GL_UNSIGNED_INT,0);
 }

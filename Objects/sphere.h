@@ -22,14 +22,11 @@ public:
     void bind();
 
     //SPHERE FUNCTION
-    void buildTriangulation();
 
 private:
     //OPENGL ATTRIBUTES
     unsigned int VBO, EBO;
     std::vector<unsigned int> indices;
-    std::vector<float> normals;
-    std::vector<float> triangledVertices;
 
     //SPHERE ATTRIBUTES
     int sectorCount = 36;

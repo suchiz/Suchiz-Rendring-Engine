@@ -42,6 +42,9 @@ void Plane::draw()
     bind();
     enableVertices(0);
     enableNormals(1);
-    glad_glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-    glad_glDrawArrays(GL_TRIANGLES, 0, 36);
+    if (wire)
+        glad_glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+    else
+        glad_glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+    glad_glDrawArrays(GL_TRIANGLES, 0, 6);
 }

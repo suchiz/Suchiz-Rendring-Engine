@@ -40,9 +40,11 @@ public:
     void setPosition(glm::vec3 pos) {position = pos; updateModel();}
     void setRotation(glm::vec3 rot) {rotation = rot; updateModel();}
     void setSize(glm::vec3 size) {scale = size; updateModel();}
+    void setWire(bool b) {wire = b;}
 
 protected:
     //ATTRIBUTES
+    bool wire = false;
     QString name;
     glm::vec3 scale = glm::vec3(1.0f);
     glm::vec3 color = glm::vec3(1.0f);

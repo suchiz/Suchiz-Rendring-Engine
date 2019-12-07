@@ -16,8 +16,9 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    void addSceneObject(DrawableObject* object){scene->addObject(object);}
-    void updateObjectList();
+    void addSceneObject(DrawableObject* object);
+    void deleteObjectFromList(int ind);
+    void clearObjectList();
     void mouseReleaseEvent(QMouseEvent *event);
     ~MainWindow();
 
@@ -28,6 +29,8 @@ private slots:
     void on_addButton_clicked();
     void on_editButton_clicked();
     void on_deleteButton_clicked();
+
+    void on_objectListView_itemClicked(QListWidgetItem *item);
 
 private:
 
