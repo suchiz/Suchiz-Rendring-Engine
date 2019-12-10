@@ -29,7 +29,7 @@ public:
     //GETTERS
     glm::vec3 getPosition() const {return position;}
     glm::vec3 getRotation() const {return rotation;}
-    glm::vec3 getScale() const {return scale;}
+    glm::vec3 getSize() const {return scale;}
     glm::mat4 getModel() const {return model;}
     glm::vec3 getColor() const {return color;}
     ObjectType getType() const {return objectType;}
@@ -41,6 +41,7 @@ public:
     void setRotation(glm::vec3 rot) {rotation = rot; updateModel();}
     void setSize(glm::vec3 size) {scale = size; updateModel();}
     void setWire(bool b) {wire = b;}
+    void setName(QString n) {name = n;}
 
 protected:
     //ATTRIBUTES

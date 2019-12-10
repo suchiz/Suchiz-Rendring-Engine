@@ -4,13 +4,14 @@
 #include <QDialog>
 #include "../Objects/drawableobject.h"
 #include <regex>
+#include "checkui.h"
 
 class MainWindow;
 namespace Ui {
 class AddDialog;
 }
 
-class AddDialog : public QDialog
+class AddDialog : public QDialog, public CheckUI
 {
     Q_OBJECT
 
@@ -22,14 +23,13 @@ private slots:
     void on_cancelButton_clicked();
     void on_okButton_clicked();
 
+
 private:
     Ui::AddDialog *ui;
     MainWindow *mw;
 
     //METHODS
-    float checkFloat_1(QString ref);
-    float checkFloat_0(QString ref);
-    int checkInt_3(QString ref);
+    void clearFields();
 };
 
 #endif // ADDDIALOG_H

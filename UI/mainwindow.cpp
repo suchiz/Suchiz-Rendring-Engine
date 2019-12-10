@@ -25,6 +25,7 @@ void MainWindow::addSceneObject(DrawableObject *object)
     QListWidgetItem *item = new QListWidgetItem;
     item->setText(object->getName());
     item->setCheckState(Qt::Unchecked);
+    item->setFlags(item->flags() | Qt::ItemIsEditable);
     ui->objectListView->addItem(item);
 }
 
@@ -70,11 +71,19 @@ void MainWindow::on_demoButton_clicked()
 
 void MainWindow::on_editButton_clicked()
 {
-//    if (scene->getSurfaceToDraw().size()>0){
-//        TensorProduct tp = scene->getSurfaceToDraw()[surfaceCBox->currentIndex()];
-//        createEditSurfaceWindow(tp);
-//        editPopup->show();
-//    }
+    if (oed == NULL)
+        oed = new ObjectEdit(this, this);
+    if (sed == NULL)
+        sed = new SurfaceEdit(this);
+    if (scene->getObjectsToDraw().size() > 0){
+        DrawableObject *obj = scene->getObjectsToDraw()[ui->objectListView->currentRow()];
+        if (obj->getType() == SURFACE){
+            sed->show();
+        } else {
+            oed->editObject(ui->objectListView->currentRow(), obj);
+            oed->show();
+        }
+    }
     scene->setFocus();
 }
 
@@ -93,7 +102,7 @@ void MainWindow::on_clearButton_clicked()
 
 void MainWindow::on_deleteButton_clicked()
 {
-    if (scene->getObjectsToDraw().size() > 0){
+    if (scene->getObjectsToDraw().size() > 0 && ui->objectListView->currentRow() != -1){
         scene->deleteObject(ui->objectListView->currentRow());
         deleteObjectFromList(ui->objectListView->currentRow());
     }
@@ -112,8 +121,14 @@ void MainWindow::clearObjectList()
         QListWidgetItem *item = new QListWidgetItem;
         item->setText(scene->getObjectsToDraw()[i]->getName());
         item->setCheckState(Qt::Unchecked);
+        item->setFlags(item->flags() | Qt::ItemIsEditable);
         ui->objectListView->addItem(item);
     }
+}
+
+void MainWindow::updateObjectName(int ind, QString name)
+{
+    ui->objectListView->item(ind)->setText(name);
 }
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *event)
@@ -123,9 +138,16 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 
 void MainWindow::on_objectListView_itemClicked(QListWidgetItem *item)
 {
-    if (scene->getObjectsToDraw().size() > 0)
+    if (scene->getObjectsToDraw().size() > 0){
         if (item->checkState() == Qt::Checked)
             scene->getObjectsToDraw()[ui->objectListView->row(item)]->setWire(true);
         else
             scene->getObjectsToDraw()[ui->objectListView->row(item)]->setWire(false);
+    }
+}
+
+void MainWindow::on_objectListView_itemChanged(QListWidgetItem *item)
+{
+    if (scene->getObjectsToDraw().size() > 0)
+        scene->getObjectsToDraw()[ui->objectListView->row(item)]->setName(item->text());
 }

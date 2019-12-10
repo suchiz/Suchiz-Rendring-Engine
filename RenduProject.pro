@@ -14,8 +14,8 @@ QT += widgets
 TARGET = Suchiz-Rendering-Project
 TEMPLATE = app
 
-SOURCES += Scene/main.cpp\
-        Scene/mainwindow.cpp \
+SOURCES += UI/main.cpp\
+        UI/mainwindow.cpp \
     External/glad.c \
     Objects/cube.cpp \
     Scene/scene.cpp \
@@ -27,9 +27,12 @@ SOURCES += Scene/main.cpp\
     Surfaces/bspline.cpp \
     Surfaces/tensorproduct.cpp \
     Objects/capsule.cpp \
-    UI/adddialog.cpp
+    UI/adddialog.cpp \
+    UI/surfaceedit.cpp \
+    UI/objectedit.cpp \
+    UI/checkui.cpp
 
-HEADERS  += Scene/mainwindow.h \
+HEADERS  += UI/mainwindow.h \
     Scene/shader.h \
     External/glm/common.hpp \
     External/glm/exponential.hpp \
@@ -66,10 +69,15 @@ HEADERS  += Scene/mainwindow.h \
     Surfaces/bspline.h \
     Surfaces/tensorproduct.h \
     Objects/capsule.h \
-    UI/adddialog.h
+    UI/adddialog.h \
+    UI/surfaceedit.h \
+    UI/objectedit.h \
+    UI/checkui.h
 
 FORMS    += UI/mainwindow.ui \
-    UI/adddialog.ui
+    UI/adddialog.ui \
+    UI/surfaceedit.ui \
+    UI/objectedit.ui
 
 DISTFILES += \
     Shaders/blinnphong.vs \

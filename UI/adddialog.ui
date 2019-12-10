@@ -366,17 +366,14 @@
                 <widget class="QComboBox" name="knotVectComboBox"/>
                </item>
                <item>
-                <spacer name="horizontalSpacer_4">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
+                <widget class="QLabel" name="label_5">
+                 <property name="text">
+                  <string>Name:</string>
                  </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="nameSurfLineEdit"/>
                </item>
               </layout>
              </item>

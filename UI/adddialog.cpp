@@ -29,20 +29,22 @@ void AddDialog::on_cancelButton_clicked()
 
 void AddDialog::on_okButton_clicked()
 {
-    glm::vec3 position = glm::vec3(checkFloat_0(ui->xLineEdit->text()),
-                                   checkFloat_0(ui->yLineEdit->text()),
-                                   checkFloat_0(ui->zLineEdit->text()));
-    glm::vec3 color = glm::vec3(glm::vec3(checkFloat_1(ui->rLineEdit->text()),
-                                          checkFloat_1(ui->gLineEdit->text()),
-                                          checkFloat_1(ui->bLineEdit->text())));
-    glm::vec3 rotation = glm::vec3(checkFloat_0(ui->rollLineEdit->text()),
-                                   checkFloat_0(ui->pitchLineEdit->text()),
-                                   checkFloat_0(ui->yawLineEdit->text()));
-    glm::vec3 size = glm::vec3(checkFloat_1(ui->xSizeLineEdit->text()),
-                               checkFloat_1(ui->ySizeLineEdit->text()),
-                               checkFloat_1(ui->zSizeLineEdit->text()));
+    glm::vec3 position = checkPostion(ui->xLineEdit->text(),
+                                      ui->yLineEdit->text(),
+                                      ui->zLineEdit->text());
+    glm::vec3 color = checkColor(ui->rLineEdit->text(),
+                                 ui->gLineEdit->text(),
+                                 ui->bLineEdit->text());
+    glm::vec3 rotation = checkRotation(ui->rollLineEdit->text(),
+                                       ui->pitchLineEdit->text(),
+                                       ui->yawLineEdit->text());
+    glm::vec3 size = checkSize(ui->xSizeLineEdit->text(),
+                               ui->ySizeLineEdit->text(),
+                               ui->zSizeLineEdit->text());;
     QString name = ui->nameLineEdit->text();
     if (ui->objectsComboBox->currentText().toStdString() == "CUBE"){
+        if (name == "")
+            name = "Cube";
         Cube *cube = new Cube(name);
         cube->setSize(size);
         cube->setPosition(position);
@@ -50,6 +52,8 @@ void AddDialog::on_okButton_clicked()
         cube->setRotation(rotation);
         mw->addSceneObject(cube);
     } else if (ui->objectsComboBox->currentText().toStdString() == "PLANE"){
+        if (name == "")
+            name = "Plane";
         Plane *plane = new Plane(name);
         plane->setSize(size);
         plane->setPosition(position);
@@ -57,6 +61,8 @@ void AddDialog::on_okButton_clicked()
         plane->setRotation(rotation);
         mw->addSceneObject(plane);
     } else if (ui->objectsComboBox->currentText().toStdString() == "SPHERE"){
+        if (name == "")
+            name = "Sphere";
         Sphere *sphere = new Sphere(name);
         sphere->setSize(size);
         sphere->setPosition(position);
@@ -64,28 +70,23 @@ void AddDialog::on_okButton_clicked()
         sphere->setRotation(rotation);
         mw->addSceneObject(sphere);
     }
+    clearFields();
     close();
 }
 
-float AddDialog::checkFloat_1(QString ref)
+void AddDialog::clearFields()
 {
-    if (std::regex_match(ref.toStdString(), std::regex{"^[-+]?[0-9]*.?[0-9]+$"}))
-        return ref.toFloat();
-    else
-        return 1;
-}
-float AddDialog::checkFloat_0(QString ref)
-{
-    if (std::regex_match(ref.toStdString(), std::regex{"^[-+]?[0-9]*.?[0-9]+$"}))
-        return ref.toFloat();
-    else
-        return 0;
-}
-
-int AddDialog::checkInt_3(QString ref)
-{
-    if (std::regex_match(ref.toStdString(), std::regex{"^[0-9]+$"}))
-        if (ref.toInt() > 3)
-            return ref.toInt();
-    return 3;
+    ui->nameLineEdit->clear();
+    ui->rLineEdit->clear();
+    ui->gLineEdit->clear();
+    ui->bLineEdit->clear();
+    ui->xLineEdit->clear();
+    ui->yLineEdit->clear();
+    ui->zLineEdit->clear();
+    ui->xSizeLineEdit->clear();
+    ui->ySizeLineEdit->clear();
+    ui->zSizeLineEdit->clear();
+    ui->rollLineEdit->clear();
+    ui->pitchLineEdit->clear();
+    ui->yawLineEdit->clear();
 }
