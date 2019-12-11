@@ -2,9 +2,9 @@
 
 glm::vec3 CheckUI::checkColor(QString p1, QString p2, QString p3)
 {
-    float r = checkInt(p1);
-    float g = checkInt(p2);
-    float b = checkInt(p3);
+    float r = checkFloat(p1);
+    float g = checkFloat(p2);
+    float b = checkFloat(p3);
 
     r = clampBot(r, 0, 0);
     g = clampBot(g, 0, 0);

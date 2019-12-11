@@ -1,13 +1,12 @@
 #include "objectedit.h"
 #include "ui_objectedit.h"
-#include "../Scene/mainwindow.h"
+#include "../UI/mainwindow.h"
 
 ObjectEdit::ObjectEdit(QWidget *parent, MainWindow *mw) : QDialog(parent),
     ui(new Ui::ObjectEdit)
 {
     this->mw = mw;
     ui->setupUi(this);
-
 }
 
 ObjectEdit::~ObjectEdit()
@@ -66,10 +65,5 @@ void ObjectEdit::on_okButton_pressed()
     obj->setColor(color);
     obj->setRotation(rotation);
     mw->updateObjectName(ind, name);
-    close();
-}
-
-void ObjectEdit::on_cancelButton_pressed()
-{
     close();
 }

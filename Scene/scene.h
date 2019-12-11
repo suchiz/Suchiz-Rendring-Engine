@@ -48,11 +48,10 @@ public:
     std::vector<DrawableObject*> getObjectsToDraw() {return objectsToDraw;}
 
 
-private:
+protected:
     //OPENGL ATTRIBUTES
     unsigned int objectsVAO;
     Shader *objectShader;
-    Shader *lightShader;
     Camera *camera;
     Light *light;
     DepthMap *depthmap;

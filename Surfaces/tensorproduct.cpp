@@ -1,21 +1,18 @@
 #include "tensorproduct.h"
 
-TensorProduct::TensorProduct(QString name, std::pair<int, int> size, std::vector<glm::vec3> controlPoints){
+TensorProduct::TensorProduct(QString name, std::pair<int, int> size, KVType knotVectType, int order){
     this->name = name;
-    this->order = 3;
+    this->order = order;
     this->size = size;
-    this->knotVectType = KVType::OPEN_UNIFORM;
+    this->knotVectType = knotVectType;
+    this->objectType = SURFACE;
     glad_glGenBuffers(1, &VBO);
     glad_glGenBuffers(1, &EBO);
 
     for (int i(0); i < size.first*size.second; ++i)
         weights.push_back(1.0);
 
-    if (controlPoints.size()>0)
-        controlPointsVect = controlPoints;
-    else
-        buildControlPoints();
-
+    buildControlPoints();
     checkParameters();
     computePoint(0.2, 0.2);
     buildGeometry();
@@ -62,37 +59,33 @@ void TensorProduct::checkParameters(){
     assert(getNBControlPoints() == size.first*size.second);
 }
 
-void TensorProduct::draw(){
-    bind();
-    enableVertices(0);
-    enableNormals(1);
-    glad_glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
-    glad_glDrawElements(GL_TRIANGLES, indices.size() * 3, GL_UNSIGNED_INT, 0);
-}
-
 void TensorProduct::update()
 {
+    vertices.clear();
+    normals.clear();
+    points.clear();
+    indices.clear();
+    generatrixVect.clear();
+    guidelinesVect.clear();
     checkParameters();
     computePoint(0.2, 0.2);
     buildGeometry();
     buildinterVertices();
 }
 
-void TensorProduct::updatePoint(int x, int y, glm::vec3 pt)
+void TensorProduct::updatePoint(int i, glm::vec3 pt)
 {
-    std::cout << controlPointsVect[x*size.first+y].x << std::endl;
-    controlPointsVect[x*size.first+y] = pt;
-    std::cout << controlPointsVect[x*size.first+y].x << std::endl;
+    controlPointsVect[i] = pt;
+    update();
 }
-
 
 void TensorProduct::buildControlPoints()
 {
     for (int i(0); i < size.first; ++i)
         for (int j(0); j < size.second; ++j)
-            controlPointsVect.push_back((glm::vec3(j+position.x, position.y, i+position.z)));
-}
+            controlPointsVect.push_back(glm::vec3(j+position.x, position.y, i+position.z));
 
+}
 
 
 void TensorProduct::buildGeometry()
@@ -143,22 +136,6 @@ void TensorProduct::buildinterVertices()
         }
 }
 
-void TensorProduct::buildDemo()
-{
-    controlPointsVect.clear();
-    controlPointsVect = {
-            glm::vec3(-0.35,0,0.3), glm::vec3(-0.15,0.1,0.35), glm::vec3(0,-0.2,0.25),
-            glm::vec3(0.3,0.05,0.3), glm::vec3(0.45,0,0.25),
-            glm::vec3(-0.4,-0.05,0.1), glm::vec3(-0.3,0,0.1), glm::vec3(-0.1,-0.15,0.15),
-            glm::vec3(0.2,-0.05,0.05), glm::vec3(0.4,-0.1,0.1),
-            glm::vec3(-0.5,0,0), glm::vec3(-0.25,0,0), glm::vec3(0,0,0),
-            glm::vec3(0.25,0,0), glm::vec3(0.5,0,0)};
-    glad_glGenBuffers(1, &VBO);
-    glad_glGenBuffers(1, &EBO);
-    update();
-    draw();
-}
-
 void TensorProduct::bind()
 {
     glad_glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -177,4 +154,15 @@ void TensorProduct::enableNormals(unsigned int position)
 {
     glad_glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
     glad_glEnableVertexAttribArray(position);
+}
+
+void TensorProduct::draw(){
+    bind();
+    enableVertices(0);
+    enableNormals(1);
+    if (wire)
+        glad_glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
+    else
+        glad_glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
+    glad_glDrawElements(GL_TRIANGLES, (unsigned int)indices.size(), GL_UNSIGNED_INT, 0);
 }

@@ -5,6 +5,7 @@
 #include "../Objects/drawableobject.h"
 #include <regex>
 #include "checkui.h"
+#include "../Surfaces/tensorproduct.h"
 
 class MainWindow;
 namespace Ui {
@@ -20,7 +21,6 @@ public:
     ~AddDialog();
 
 private slots:
-    void on_cancelButton_clicked();
     void on_okButton_clicked();
 
 

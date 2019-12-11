@@ -25,8 +25,6 @@ public:
 private slots:
     void on_okButton_pressed();
 
-    void on_cancelButton_pressed();
-
 private:
     Ui::ObjectEdit *ui;
     DrawableObject *obj;

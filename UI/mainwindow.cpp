@@ -17,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent) :
     tempLayout->addWidget(scene);
     ui->sceneContainer->setLayout(tempLayout);
     scene->setFocus();
+    oed = new ObjectEdit(this, this);
+    sed = new SurfaceEdit(this, this);
+    ad = new AddDialog(this, this);
 }
 
 void MainWindow::addSceneObject(DrawableObject *object)
@@ -47,37 +50,14 @@ void MainWindow::on_demoButton_clicked()
     clearObjectList();
     scene->setFocus();
 }
-//void MainWindow::on_nurbsButton_clicked()
-//{
-//    if (!nameNurbsEdit->text().isEmpty()){
-//        std::vector<glm::vec3> pt;
-//        TensorProduct *tp = new TensorProduct(nameNurbsEdit->text(),
-//                                         std::pair<int, int> {checkInt_3(heightNurbsEdit->text()),
-//                                                              checkInt_3(widthNurbsEdit->text())},
-//                                         pt);
-//        tp->setPosition(glm::vec3(checkFloat_0(xNurbs->text()),
-//                                 checkFloat_0(yNurbs->text()),
-//                                 checkFloat_0(zNurbs->text())));
-//        tp->setColor(glm::vec3(checkFloat_1(rNurbs->text()),
-//                              checkFloat_1(gNurbs->text()),
-//                              checkFloat_1(bNurbs->text())));
-//        surfaceCBox->addItem(nameNurbsEdit->text());
-//        scene->addObject(tp);
-//        clearEditLines();
-//    } else
-//        QMessageBox::information(this, "Name is empty", "Insert at least a name");
-//    scene->setFocus();
-//}
 
 void MainWindow::on_editButton_clicked()
 {
-    if (oed == NULL)
-        oed = new ObjectEdit(this, this);
-    if (sed == NULL)
-        sed = new SurfaceEdit(this);
-    if (scene->getObjectsToDraw().size() > 0){
+
+    if (scene->getObjectsToDraw().size() > 0 && ui->objectListView->currentRow() != -1){
         DrawableObject *obj = scene->getObjectsToDraw()[ui->objectListView->currentRow()];
         if (obj->getType() == SURFACE){
+            sed->editSurface(ui->objectListView->currentRow(), (TensorProduct*) obj);
             sed->show();
         } else {
             oed->editObject(ui->objectListView->currentRow(), obj);
@@ -89,8 +69,6 @@ void MainWindow::on_editButton_clicked()
 
 void MainWindow::on_addButton_clicked()
 {
-    if (ad == NULL)
-        ad = new AddDialog(this, this);
     ad->show();
     scene->setFocus();
 }

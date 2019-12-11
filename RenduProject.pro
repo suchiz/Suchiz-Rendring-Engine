@@ -30,7 +30,8 @@ SOURCES += UI/main.cpp\
     UI/adddialog.cpp \
     UI/surfaceedit.cpp \
     UI/objectedit.cpp \
-    UI/checkui.cpp
+    UI/checkui.cpp \
+    Surfaces/editsurfaceview.cpp
 
 HEADERS  += UI/mainwindow.h \
     Scene/shader.h \
@@ -72,7 +73,8 @@ HEADERS  += UI/mainwindow.h \
     UI/adddialog.h \
     UI/surfaceedit.h \
     UI/objectedit.h \
-    UI/checkui.h
+    UI/checkui.h \
+    Surfaces/editsurfaceview.h
 
 FORMS    += UI/mainwindow.ui \
     UI/adddialog.ui \

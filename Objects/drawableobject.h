@@ -34,6 +34,7 @@ public:
     glm::vec3 getColor() const {return color;}
     ObjectType getType() const {return objectType;}
     QString getName() const {return name;}
+    bool getWire() const {return wire;}
 
     //SETTERS
     void setColor(glm::vec3 c) {color = c;}

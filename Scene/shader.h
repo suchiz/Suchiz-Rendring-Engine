@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <unistd.h>
 
 enum ShaderType {
     LIGHT,
@@ -31,7 +32,9 @@ public:
         std::ifstream fShaderFile;
         std::string vertexPath;
         std::string fragmentPath;
-
+        char buffer[256];
+        char *val = getcwd(buffer, sizeof(buffer));
+        std::string path(val);
         // ensure ifstream objects can throw exceptions:
         vShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
         fShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
@@ -39,14 +42,14 @@ public:
         {
             // open files
             if (type == BLINNPHONG){
-                vertexPath = "/home/suchiz/Documents/RenduProject/RenduProject/blinnphong.vs";
-                fragmentPath = "/home/suchiz/Documents/RenduProject/RenduProject/blinnphong.fs";
+                vertexPath = "/home/suchiz/Documents/Suchiz-Rendring-Engine/Shaders/blinnphong.vs";
+                fragmentPath = "/home/suchiz/Documents/Suchiz-Rendring-Engine/Shaders/blinnphong.fs";
             } else if (type == LIGHT){
-                vertexPath = "/home/suchiz/Documents/RenduProject/RenduProject/lightshader.vs";
-                fragmentPath = "/home/suchiz/Documents/RenduProject/RenduProject/lightshader.fs";
+                vertexPath = "/home/suchiz/Documents/Suchiz-Rendring-Engine/Shaders/lightshader.vs";
+                fragmentPath = "/home/suchiz/Documents/Suchiz-Rendring-Engine/Shaders/lightshader.fs";
             } else if (type == DEPTH){
-                vertexPath = "/home/suchiz/Documents/RenduProject/RenduProject/depthmapshader.vs";
-                fragmentPath = "/home/suchiz/Documents/RenduProject/RenduProject/depthmapshader.fs";
+                vertexPath = "/home/suchiz/Documents/Suchiz-Rendring-Engine/Shaders/depthmapshader.vs";
+                fragmentPath = "/home/suchiz/Documents/Suchiz-Rendring-Engine/Shaders/depthmapshader.fs";
             }
             vShaderFile.open(vertexPath);
             fShaderFile.open(fragmentPath);

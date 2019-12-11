@@ -3,6 +3,7 @@
 
 #include "../Surfaces/bspline.h"
 #include "../Objects/drawableobject.h"
+#include "../Objects/cube.h"
 #include <QString>
 
 class TensorProduct: public DrawableObject
@@ -21,7 +22,6 @@ private:
     std::pair<int, int> size;
     KVType knotVectType;
     int order;
-    QString name;
 
     //METHODS
     void checkParameters();
@@ -30,7 +30,7 @@ private:
 
 public:
     //CONSTRUCTOR
-    TensorProduct(QString name, std::pair<int, int> size, std::vector<glm::vec3> controlPoints);
+    TensorProduct(QString name, std::pair<int, int> size, KVType knotVectType, int order);
 
     //OPENGL FUNCTIONS
     void draw();
@@ -40,21 +40,17 @@ public:
 
     //METHODS
     void update();
-    void updatePoint(int x, int y, glm::vec3 pt);
+    void updatePoint(int i, glm::vec3 pt);
     void buildControlPoints();
     void buildGeometry();
     void buildinterVertices();
-    void buildDemo();
-
 
     //GETTERS
-    int getOrder(){ return order;}
-    std::pair<int,int> getSize(){ return size;}
-    int getNBControlPoints(){ return controlPointsVect.size();}
-    std::vector<glm::vec3> getControlPointsVect(){ return controlPointsVect;}
+    int getOrder() const {return order;}
+    int getNBControlPoints() const {return controlPointsVect.size();}
+    std::vector<glm::vec3> getControlPointsVect() const {return controlPointsVect;}
     std::vector<glm::vec3> getGuidelinePoints(int ind);
     std::vector<glm::vec3> getGeneratrixPoints(int ind, std::vector<std::vector<glm::vec3>> guidelinesVect);
-    QString getName() const{return name;}
 };
 
 #endif // TENSORPRODUCT_H
