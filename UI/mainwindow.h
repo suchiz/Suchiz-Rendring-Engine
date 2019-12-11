@@ -22,6 +22,7 @@ public:
     void deleteObjectFromList(int ind);
     void clearObjectList();
     void updateObjectName(int ind, QString name);
+    bool checkWire(int ind);
     void mouseReleaseEvent(QMouseEvent *event);
     ~MainWindow();
 

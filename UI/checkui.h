@@ -16,6 +16,9 @@ protected:
     glm::vec3 checkSize(QString p1, QString p2, QString p3);
     glm::vec3 checkRotation(QString p1, QString p2, QString p3);
     glm::vec3 checkPostion(QString p1, QString p2, QString p3);
+    int checkOrder(QString p1);
+    int checkWidth(QString p1);
+    int checkHeight(QString p1);
 
     float clampBot(float x, float thresh, float clampVal);
     float clampTop(float x, float thresh, float clampVal);

@@ -26,6 +26,12 @@ void SurfaceEdit::mousePressEvent(QMouseEvent *event)
     scene->setFocus();
 }
 
+void SurfaceEdit::closeEvent(QCloseEvent *event)
+{
+    if (!mw->checkWire(ind))
+        obj->setWire(false);
+}
+
 SurfaceEdit::~SurfaceEdit()
 {
     delete ui;
@@ -70,6 +76,7 @@ void SurfaceEdit::editSurface(int ind, TensorProduct *obj)
         item->setCheckState(Qt::Unchecked);
         ui->listWidget->addItem(item);
     }
+    obj->setWire(true);
     scene->addObject(obj);
     scene->setCurrentTp(obj);
 }
@@ -90,13 +97,26 @@ void SurfaceEdit::on_okButton_pressed()
                                ui->ySizeLineEdit->text(),
                                ui->zSizeLineEdit->text());;
     QString name = ui->nameLineEdit->text();
+    int order = checkOrder(ui->orderLineEdit->text());
+    KVType kvtype;
+    if (ui->knotVectComboBox->currentText() == "UNIFORM")
+        kvtype = KVType::UNIFORM;
+    else
+        kvtype = KVType::OPEN_UNIFORM;
+    std::pair<int, int> sizeTp = obj->getHW();
+    if (order <= std::min(sizeTp.first, sizeTp.second))
+        obj->setOrder(order);
+
+    obj->setKVType(kvtype);
     obj->setName(name);
     obj->setSize(size);
+
     obj->setPosition(position);
     obj->setColor(color);
     obj->setRotation(rotation);
     mw->updateObjectName(ind, name);
     ui->listWidget->clear();
+
     close();
 }
 

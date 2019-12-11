@@ -46,11 +46,16 @@ public:
     void buildinterVertices();
 
     //GETTERS
+    std::pair<int,int> getHW() const {return size;}
     int getOrder() const {return order;}
     int getNBControlPoints() const {return controlPointsVect.size();}
     std::vector<glm::vec3> getControlPointsVect() const {return controlPointsVect;}
     std::vector<glm::vec3> getGuidelinePoints(int ind);
     std::vector<glm::vec3> getGeneratrixPoints(int ind, std::vector<std::vector<glm::vec3>> guidelinesVect);
+
+    //SETTERS
+    void setOrder(int order) {this->order = order; update();}
+    void setKVType(KVType kvtype) {this->knotVectType = kvtype; update();}
 };
 
 #endif // TENSORPRODUCT_H

@@ -109,6 +109,13 @@ void MainWindow::updateObjectName(int ind, QString name)
     ui->objectListView->item(ind)->setText(name);
 }
 
+bool MainWindow::checkWire(int ind)
+{
+    if (ui->objectListView->item(ind)->checkState() == Qt::Checked && scene->getObjectsToDraw()[ind]->getWire())
+        return true;
+    return false;
+}
+
 void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 {
     scene->setFocus();

@@ -44,6 +44,24 @@ glm::vec3 CheckUI::checkPostion(QString p1, QString p2, QString p3)
     return glm::vec3(x,y,z);
 }
 
+int CheckUI::checkOrder(QString p1)
+{
+    int order = checkInt(p1);
+    return clampBot(order, 2, 2);
+}
+
+int CheckUI::checkWidth(QString p1)
+{
+    int w = checkInt(p1);
+    return clampBot(w, 2, 2);
+}
+
+int CheckUI::checkHeight(QString p1)
+{
+    int h = checkInt(p1);
+    return clampBot(h, 2, 2);
+}
+
 float CheckUI::clampBot(float x, float thresh, float clampVal)
 {
     if (x <= thresh)

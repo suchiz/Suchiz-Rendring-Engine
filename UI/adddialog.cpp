@@ -79,19 +79,21 @@ void AddDialog::on_okButton_clicked()
         glm::vec3 rotation = checkRotation(ui->rollLineEdit_2->text(),
                                            ui->pitchLineEdit_2->text(),
                                            ui->yawLineEdit_2->text());
-        int order = checkInt(ui->orderLineEdit->text());
-        int w = checkInt(ui->widthLineEdit->text());
-        int h = checkInt(ui->heightLineEdit->text());
-        KVType kvtype;
-        if (ui->knotVectComboBox->currentText() == "UNIFORM")
-            kvtype = KVType::UNIFORM;
-        else
-            kvtype = KVType::OPEN_UNIFORM;
-        TensorProduct *tp = new TensorProduct(name, std::pair<int, int> {w, h}, kvtype, order);
-        tp->setPosition(position);
-        tp->setColor(color);
-        tp->setRotation(rotation);
-        mw->addSceneObject(tp);
+        int order = checkOrder(ui->orderLineEdit->text());
+        int w = checkWidth(ui->widthLineEdit->text());
+        int h = checkHeight(ui->heightLineEdit->text());
+        if (order <= std::min(w,h)) {
+            KVType kvtype;
+            if (ui->knotVectComboBox->currentText() == "UNIFORM")
+                kvtype = KVType::UNIFORM;
+            else
+                kvtype = KVType::OPEN_UNIFORM;
+            TensorProduct *tp = new TensorProduct(name, std::pair<int, int> {w, h}, kvtype, order);
+            tp->setPosition(position);
+            tp->setColor(color);
+            tp->setRotation(rotation);
+            mw->addSceneObject(tp);
+        }
     }
     clearFields();
     close();

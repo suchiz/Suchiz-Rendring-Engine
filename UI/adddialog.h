@@ -2,10 +2,10 @@
 #define ADDDIALOG_H
 
 #include <QDialog>
-#include "../Objects/drawableobject.h"
-#include <regex>
 #include "checkui.h"
 #include "../Surfaces/tensorproduct.h"
+#include "../Objects/drawableobject.h"
+
 
 class MainWindow;
 namespace Ui {
