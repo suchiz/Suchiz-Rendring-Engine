@@ -14,7 +14,10 @@
 #include "../Scene/shader.h"
 #include "../Scene/light.h"
 #include "../Objects/plane.h"
+#include "../Objects/capsule.h"
 #include "../Objects/sphere.h"
+#include "../Animation/bone.h"
+#include "../Animation/animatedmodel.h"
 #include "../Objects/drawableobject.h"
 #include "../Surfaces/tensorproduct.h"
 
@@ -36,17 +39,17 @@ public:
     //SCENE FUNCTIONS
     void createDemo();
     void clearScene();
+    void createAnimationDemo();
     void addObject(DrawableObject *object){objectsToDraw.push_back(object);}
     void deleteObject(int index){objectsToDraw.erase(objectsToDraw.begin() + index);}
 
     //UI FUNCTIONS
     void setMoveLight(bool checked){ moveLight = checked;}
-    void setMoveSurfacePoint(bool checked) {moveSurfacePoint = checked;}
+    void setMoveBone(bool checked) {moveBone = checked;}
 
     //GETTERS
     Light& getLight() {return *light;}
     std::vector<DrawableObject*> getObjectsToDraw() {return objectsToDraw;}
-
 
 protected:
     //OPENGL ATTRIBUTES
@@ -58,13 +61,14 @@ protected:
 
     //SCENE ATTRIBUTES
     std::vector<DrawableObject*> objectsToDraw;
+    AnimatedModel *an_model;
 
     float lastX = size().width() / 2.0f;
     float lastY = size().height() / 2.0f;
 
     //UI ATTRIBUTES
     bool moveLight = false;
-    bool moveSurfacePoint = false;
+    bool moveBone = false;
 
 };
 #endif // OPENGLWINDOW_H

@@ -32,12 +32,14 @@ public:
     glm::vec3 getSize() const {return scale;}
     glm::mat4 getModel() const {return model;}
     glm::vec3 getColor() const {return color;}
+    std::vector<float> getVertices() const {return vertices;}
     ObjectType getType() const {return objectType;}
     QString getName() const {return name;}
     bool getWire() const {return wire;}
 
     //SETTERS
     void setColor(glm::vec3 c) {color = c;}
+    void setVertices(std::vector<float> vertices) {this->vertices = vertices;}
     void setPosition(glm::vec3 pos) {position = pos; updateModel();}
     void setRotation(glm::vec3 rot) {rotation = rot; updateModel();}
     void setSize(glm::vec3 size) {scale = size; updateModel();}

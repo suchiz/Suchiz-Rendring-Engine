@@ -37,7 +37,16 @@ void AddDialog::on_okButton_clicked()
                                    ui->ySizeLineEdit->text(),
                                    ui->zSizeLineEdit->text());;
         QString name = ui->nameLineEdit->text();
-        if (ui->objectsComboBox->currentText().toStdString() == "CUBE"){
+        if (ui->objectsComboBox->currentText().toStdString() == "CAPSULE"){
+            if (name == "")
+                name = "Capsule";
+            Capsule *caps = new Capsule(name);
+            caps->setSize(size);
+            caps->setPosition(position);
+            caps->setColor(color);
+            caps->setRotation(rotation);
+            mw->addSceneObject(caps);
+        }else if (ui->objectsComboBox->currentText().toStdString() == "CUBE"){
             if (name == "")
                 name = "Cube";
             Cube *cube = new Cube(name);

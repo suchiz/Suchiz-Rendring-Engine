@@ -5,6 +5,7 @@
 #include "checkui.h"
 #include "../Surfaces/tensorproduct.h"
 #include "../Objects/drawableobject.h"
+#include "../Objects/capsule.h"
 
 
 class MainWindow;

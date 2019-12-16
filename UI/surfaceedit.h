@@ -17,8 +17,8 @@ class SurfaceEdit : public QDialog, public CheckUI
 
 public:
     explicit SurfaceEdit(QWidget *parent = 0, MainWindow *mw = 0);
-    void mousePressEvent(QMouseEvent *event);
-    void closeEvent(QCloseEvent *event);
+    void mousePressEvent();
+    void closeEvent();
     ~SurfaceEdit();
 
     void editSurface(int ind, TensorProduct *obj);

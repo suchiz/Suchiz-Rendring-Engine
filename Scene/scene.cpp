@@ -81,36 +81,100 @@ void Scene::clearScene()
     objectsToDraw.clear();
 }
 
+void Scene::createAnimationDemo()
+{
+    Capsule *cap = new Capsule("Caps");
+
+    Cube *cube1 = new Cube("Control 1");
+    cube1->setPosition(glm::vec3(0,0,2.5f));
+
+    cube1->setSize(glm::vec3(0.1f));
+    cube1->setColor(glm::vec3(1.0,0,0));
+
+    Cube *cube2 = new Cube("Control 2");
+    cube2->setPosition(glm::vec3(0.f));
+    cube2->setSize(glm::vec3(0.1f));
+    cube2->setColor(glm::vec3(1.0,0,0));
+
+    Bone *bone1 = new Bone(0, "arm", glm::mat4(1.0f));
+    Bone *bone2 = new Bone(1, "hand", glm::mat4(1.0f));
+    bone1->setPosition(glm::vec3(0.f));
+    bone2->setPosition(glm::vec3(0.f));
+    bone1->addChildren(bone2);
+    bone1->calcInverseRestTransform(glm::mat4(1.0f));
+
+    std::vector<Bone*> skeleton;
+    skeleton.push_back(bone1);
+    skeleton.push_back(bone2);
+
+    an_model = new AnimatedModel(cap, skeleton);
+    an_model->computeWeights(0.9f);
+
+    addObject(cap);
+    addObject(cube1);
+    addObject(cube2);
+}
+
 void Scene::keyPressEvent(QKeyEvent *keyEvent)
 {
     switch(keyEvent->key())
     {
     case Qt::Key_Z:
-        if (moveLight)
+        if (moveLight){
             light->increaseHeight();
-        else
+        }else if (moveBone){
+            an_model->getSkeleton()[1]->roll(5);
+            an_model->updateModelVertice();
+        }else{
             camera->ProcessKeyboard(FORWARD);
+        }
         updateGL();
         break;
     case Qt::Key_S:
-        if (moveLight)
-            light->decreaseHeight();
-        else
+        if (moveLight){
+             light->decreaseHeight();
+        }else if (moveBone){
+            an_model->getSkeleton()[1]->roll(-5);
+            an_model->updateModelVertice();
+        }else{
             camera->ProcessKeyboard(BACKWARD);
+            }
         updateGL();
         break;
     case Qt::Key_Q:
-        if (moveLight)
+        if (moveLight){
             light->increaseDistance();
-        else
-        camera->ProcessKeyboard(LEFT);
+        }else if (moveBone){
+            an_model->getSkeleton()[1]->yaw(5);
+            an_model->updateModelVertice();
+        }else{
+            camera->ProcessKeyboard(LEFT);
+            }
         updateGL();
         break;
     case Qt::Key_D:
-        if (moveLight)
+        if (moveLight){
             light->decreaseDistance();
-        else
-        camera->ProcessKeyboard(RIGHT);
+        }else if (moveBone){
+            an_model->getSkeleton()[1]->yaw(-5);
+            an_model->updateModelVertice();
+        }else{
+            camera->ProcessKeyboard(RIGHT);
+            }
+        updateGL();
+        break;
+    case Qt::Key_T:
+        if (moveBone){
+            an_model->getSkeleton()[1]->pitch(+5);
+            an_model->updateModelVertice();
+        }
+        updateGL();
+        break;
+    case Qt::Key_B:
+        if (moveBone){
+            an_model->getSkeleton()[1]->pitch(-5);
+            an_model->updateModelVertice();
+        }
         updateGL();
         break;
     }

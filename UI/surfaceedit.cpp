@@ -21,12 +21,12 @@ SurfaceEdit::SurfaceEdit(QWidget *parent, MainWindow *mw) : QDialog(parent),
     ui->editSceneContainer->setLayout(tempLayout);
 }
 
-void SurfaceEdit::mousePressEvent(QMouseEvent *event)
+void SurfaceEdit::mousePressEvent()
 {
     scene->setFocus();
 }
 
-void SurfaceEdit::closeEvent(QCloseEvent *event)
+void SurfaceEdit::closeEvent()
 {
     if (!mw->checkWire(ind))
         obj->setWire(false);
@@ -39,6 +39,7 @@ SurfaceEdit::~SurfaceEdit()
 
 void SurfaceEdit::editSurface(int ind, TensorProduct *obj)
 {
+    scene->clearScene();
     this->obj = obj;
     this->ind = ind;
     glm::vec3 color = obj->getColor();
@@ -116,7 +117,7 @@ void SurfaceEdit::on_okButton_pressed()
     obj->setRotation(rotation);
     mw->updateObjectName(ind, name);
     ui->listWidget->clear();
-
+    scene->clearScene();
     close();
 }
 

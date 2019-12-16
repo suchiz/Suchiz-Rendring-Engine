@@ -20,10 +20,10 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     void addSceneObject(DrawableObject* object);
     void deleteObjectFromList(int ind);
-    void clearObjectList();
+    void updateObjectList();
     void updateObjectName(int ind, QString name);
     bool checkWire(int ind);
-    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseReleaseEvent();
     ~MainWindow();
 
 private slots:
@@ -37,6 +37,16 @@ private slots:
     void on_objectListView_itemClicked(QListWidgetItem *item);
 
     void on_objectListView_itemChanged(QListWidgetItem *item);
+
+    void on_animationDemoButton_pressed();
+
+    void on_clearKeyFramesButton_pressed();
+
+    void on_addKeyFrameButton_pressed();
+
+    void on_deleteKeyFrameButton_pressed();
+
+    void on_moveBoneCheckBox_toggled(bool checked);
 
 private:
 

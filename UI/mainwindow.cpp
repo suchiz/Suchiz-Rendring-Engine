@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QList<int> sizeButtonSplitter;
     sizeButtonSplitter << 150 << 570;
     ui->buttonSplitter->setSizes(sizeButtonSplitter);
+    ui->animationSplitter->setSizes(sizeButtonSplitter);
+    ui->tabWidget->setCurrentIndex(0);
     scene = new Scene();
     QHBoxLayout *tempLayout = new QHBoxLayout;
     tempLayout->addWidget(scene);
@@ -47,7 +49,7 @@ void MainWindow::on_demoButton_clicked()
 {
     scene->clearScene();
     scene->createDemo();
-    clearObjectList();
+    updateObjectList();
     scene->setFocus();
 }
 
@@ -74,6 +76,7 @@ void MainWindow::on_addButton_clicked()
 }
 void MainWindow::on_clearButton_clicked()
 {
+    ui->objectListView->clear();
     scene->clearScene();
     scene->setFocus();
 }
@@ -92,7 +95,7 @@ void MainWindow::deleteObjectFromList(int ind)
     ui->objectListView->model()->removeRow(ind);
 }
 
-void MainWindow::clearObjectList()
+void MainWindow::updateObjectList()
 {
     ui->objectListView->clear();
     for (unsigned int i(0); i < scene->getObjectsToDraw().size(); ++i){
@@ -116,7 +119,7 @@ bool MainWindow::checkWire(int ind)
     return false;
 }
 
-void MainWindow::mouseReleaseEvent(QMouseEvent *event)
+void MainWindow::mouseReleaseEvent()
 {
     scene->setFocus();
 }
@@ -135,4 +138,33 @@ void MainWindow::on_objectListView_itemChanged(QListWidgetItem *item)
 {
     if (scene->getObjectsToDraw().size() > 0)
         scene->getObjectsToDraw()[ui->objectListView->row(item)]->setName(item->text());
+}
+
+void MainWindow::on_animationDemoButton_pressed()
+{
+    scene->clearScene();
+    scene->createAnimationDemo();
+    updateObjectList();
+    scene->setFocus();
+}
+
+void MainWindow::on_clearKeyFramesButton_pressed()
+{
+
+}
+
+void MainWindow::on_addKeyFrameButton_pressed()
+{
+
+}
+
+void MainWindow::on_deleteKeyFrameButton_pressed()
+{
+
+}
+
+void MainWindow::on_moveBoneCheckBox_toggled(bool checked)
+{
+    scene->setMoveBone(checked);
+    scene->setFocus();
 }

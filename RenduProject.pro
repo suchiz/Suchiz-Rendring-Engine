@@ -31,7 +31,11 @@ SOURCES += UI/main.cpp\
     UI/surfaceedit.cpp \
     UI/objectedit.cpp \
     UI/checkui.cpp \
-    Surfaces/editsurfaceview.cpp
+    Surfaces/editsurfaceview.cpp \
+    Animation/bone.cpp \
+    Animation/animatedmodel.cpp \
+    Animation/keyframe.cpp
+
 
 HEADERS  += UI/mainwindow.h \
     Scene/shader.h \
@@ -74,7 +78,11 @@ HEADERS  += UI/mainwindow.h \
     UI/surfaceedit.h \
     UI/objectedit.h \
     UI/checkui.h \
-    Surfaces/editsurfaceview.h
+    Surfaces/editsurfaceview.h \
+    Animation/bone.h \
+    Animation/animatedmodel.h \
+    Animation/keyframe.h
+
 
 FORMS    += UI/mainwindow.ui \
     UI/adddialog.ui \
