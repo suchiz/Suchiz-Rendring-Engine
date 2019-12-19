@@ -14,7 +14,7 @@
    <string>Suchiz Rendering Engine</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_3">
+   <layout class="QHBoxLayout" name="horizontalLayout_6">
     <item>
      <widget class="QSplitter" name="sceneSplitter">
       <property name="orientation">
@@ -135,7 +135,7 @@
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
-           <widget class="QWidget" name="">
+           <widget class="QWidget" name="layoutWidget">
             <layout class="QVBoxLayout" name="verticalLayout_3">
              <item>
               <widget class="QLabel" name="label">
@@ -159,9 +159,19 @@
               </widget>
              </item>
              <item>
-              <widget class="QCheckBox" name="moveBoneCheckBox">
+              <widget class="QComboBox" name="boneComboBox"/>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="translateCheckBox">
                <property name="text">
-                <string>Move bone</string>
+                <string>Translate</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="rotateCheckBox">
+               <property name="text">
+                <string>Rotate</string>
                </property>
               </widget>
              </item>
@@ -180,7 +190,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="">
+           <widget class="QWidget" name="layoutWidget">
             <layout class="QVBoxLayout" name="verticalLayout_4">
              <item>
               <widget class="QLabel" name="label_2">
@@ -207,6 +217,9 @@
                </item>
                <item>
                 <widget class="QPushButton" name="addKeyFrameButton">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="text">
                   <string>Add </string>
                  </property>
@@ -223,6 +236,24 @@
                 <string>Delete</string>
                </property>
               </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_3">
+               <item>
+                <widget class="QPushButton" name="playButton">
+                 <property name="text">
+                  <string>Play</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="stopButton">
+                 <property name="text">
+                  <string>Stop</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
             </layout>
            </widget>

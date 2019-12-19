@@ -4,6 +4,7 @@
 #include <QtOpenGL>
 #include <QGLWidget>
 
+
 class OpenGLWindow : public QGLWidget
 {
     Q_OBJECT
@@ -12,9 +13,9 @@ public:
     virtual void initializeGL() = 0;
     virtual void resizeGL(int width, int height) = 0;
     virtual void paintGL() = 0;
-    virtual void keyPressEvent( QKeyEvent *keyEvent );
-    virtual void mouseMoveEvent(QMouseEvent *mouseEvent);
-    virtual void wheelEvent(QWheelEvent *wheelEvent);
+    void keyPressEvent( QKeyEvent *keyEvent) = 0;
+    void mouseMoveEvent(QMouseEvent *mouseEvent) = 0;
+    void wheelEvent(QWheelEvent *wheelEvent) = 0;
 
 public slots:
     virtual void timeOutSlot();

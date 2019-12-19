@@ -1,31 +1,27 @@
 #ifndef KEYFRAME_H
 #define KEYFRAME_H
 
+#include <map>
+#include <QString>
+#include "bonetransform.h"
 #include "../External/glm/glm.hpp"
 #include "../External/glm/gtc/matrix_transform.hpp"
 #include "../External/glm/gtc/type_ptr.hpp"
-#include <QString>
-#include <vector>
 
 class KeyFrame
 {
 public:
     //CONSTRUCTOR
-    KeyFrame(int ID, float timeStamp);
-
-    //FUNCTIONS
-    void addPose(glm::mat4 pose){poses.push_back(pose);}
+    KeyFrame(float timeStamp, std::map<QString, BoneTransform*> poses);
 
     //GETTERS
-    int getID() const {return ID;}
     float getTimeStamp() const {return timeStamp;}
-    std::vector<glm::mat4> getPoses() const {return poses;}
+    std::map<QString, BoneTransform*> getPoses() {return poses;}
 
 private:
     //ATTRIBUTES
-    float timeStamp = 0.f;
-    int ID;
-    std::vector<glm::mat4> poses;
+    float timeStamp;
+    std::map<QString, BoneTransform*> poses;
 };
 
 #endif // KEYFRAME_H

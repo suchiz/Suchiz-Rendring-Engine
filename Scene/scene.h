@@ -18,6 +18,7 @@
 #include "../Objects/sphere.h"
 #include "../Animation/bone.h"
 #include "../Animation/animatedmodel.h"
+#include "../Animation/animation.h"
 #include "../Objects/drawableobject.h"
 #include "../Surfaces/tensorproduct.h"
 
@@ -40,35 +41,47 @@ public:
     void createDemo();
     void clearScene();
     void createAnimationDemo();
+    void initializeAnimation();
     void addObject(DrawableObject *object){objectsToDraw.push_back(object);}
     void deleteObject(int index){objectsToDraw.erase(objectsToDraw.begin() + index);}
+    void playAnimation(){animation->play();}
+    void stopAnimation(){animation->stop();}
+    void addKeyFrame(float time);
 
     //UI FUNCTIONS
     void setMoveLight(bool checked){ moveLight = checked;}
-    void setMoveBone(bool checked) {moveBone = checked;}
+    void setRotateBone(bool checked) {rotateBone = checked;}
+    void setTranslateBone(bool checked) {translateBone = checked;}
+    void setSelectedBone(int ind){selectedBone = an_model->getSkeleton()[ind];}
 
     //GETTERS
-    Light& getLight() {return *light;}
-    std::vector<DrawableObject*> getObjectsToDraw() {return objectsToDraw;}
+    Light& getLight() const {return *light;}
+    std::vector<DrawableObject*> getObjectsToDraw() const {return objectsToDraw;}
+    Animation* getAnimation() const {return animation;}
+    AnimatedModel* getAnimatedModel() const {return an_model;}
 
 protected:
     //OPENGL ATTRIBUTES
     unsigned int objectsVAO;
-    Shader *objectShader;
-    Camera *camera;
-    Light *light;
-    DepthMap *depthmap;
+    Shader *objectShader = NULL;
+    Camera *camera = NULL;
+    Light *light = NULL;
+    DepthMap *depthmap = NULL;
 
     //SCENE ATTRIBUTES
     std::vector<DrawableObject*> objectsToDraw;
-    AnimatedModel *an_model;
+    AnimatedModel *an_model = NULL;
+    Animation *animation = NULL;
+    Bone *selectedBone;
+    bool drawAnimation = false;
 
     float lastX = size().width() / 2.0f;
     float lastY = size().height() / 2.0f;
 
     //UI ATTRIBUTES
     bool moveLight = false;
-    bool moveBone = false;
+    bool rotateBone = false;
+    bool translateBone = false;
 
 };
 #endif // OPENGLWINDOW_H

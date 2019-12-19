@@ -1,28 +1,35 @@
 #include "animatedmodel.h"
 
-AnimatedModel::AnimatedModel(DrawableObject *model, std::vector<Bone*> skeleton)
+AnimatedModel::AnimatedModel(DrawableObject *model, Bone* rootBone, std::vector<Bone*> skeleton)
 {
     this->model = model;
     this->nbBones = skeleton.size();
+    this->rootBone = rootBone;
     this->skeleton = skeleton;
     this->originalVertices = model->getVertices();
-}
+    rootBone->calcInverseRestTransform(glm::mat4(1.0f));
+    for (Bone *b : skeleton)
+        U_inv.push_back(b->getInverseRestTransform());
 
+}
 
 void AnimatedModel::computeWeights(float smooth)
 {
-    weights.clear();
-    std::vector<float> vertices = model->getVertices();
-    for (unsigned int i = 0; i < vertices.size(); i+=6){
-        std::vector<float> weightAti;
-        float dist = glm::smoothstep(skeleton[0]->getPosition()[2]+smooth, skeleton[1]->getPosition()[2]-smooth, -vertices[i+2]);
-        weightAti.push_back(dist);
-        weightAti.push_back(1-dist);
-        weights.push_back(weightAti);
+    Bone* child = rootBone->getChildren()[0];
+    std::vector<float> weightRoot;
+    std::vector<float> weightChild;
+    for (unsigned int i = 0; i < originalVertices.size(); i+=6){
+        float dist = glm::smoothstep(child->getPosition()[2]-smooth, rootBone->getPosition()[2]+smooth,  originalVertices[i+2]);
+        weightRoot.push_back(dist);
+        weightChild.push_back(1-dist);
+        weightsForGPU.push_back(dist);
+        weightsForGPU.push_back(1-dist);
     }
+    weights.insert(std::pair<Bone*, std::vector<float>>{rootBone, weightRoot});
+    weights.insert(std::pair<Bone*, std::vector<float>>{child, weightChild});
 }
 
-void AnimatedModel::updateModelVertice()
+void AnimatedModel::updateModelVerticeLBS()
 {
     std::vector<float> oldvertices = originalVertices;
     std::vector<float> newvertices;
@@ -32,8 +39,8 @@ void AnimatedModel::updateModelVertice()
         glm::vec4 currentVertex = glm::vec4(pos, 1.0f);
         glm::vec4 newVertex= glm::vec4(0.f);
 
-        for (int k = 0; k < nbBones; ++k)
-            newVertex += weights[j][k]*skeleton[k]->getAnimatedTransform()*skeleton[k]->getInverseRestTransform()* currentVertex;
+        for (std::pair<Bone*, std::vector<float>> it : weights)
+            newVertex += it.second[j]*it.first->getAnimatedTransform()*it.first->getInverseRestTransform()* currentVertex;
 
         newvertices.push_back(newVertex.x);
         newvertices.push_back(newVertex.y);
@@ -44,3 +51,6 @@ void AnimatedModel::updateModelVertice()
     }
     model->setVertices(newvertices);
 }
+
+
+

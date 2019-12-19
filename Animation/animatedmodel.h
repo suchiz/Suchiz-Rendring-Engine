@@ -10,28 +10,40 @@
 #include "../Objects/drawableobject.h"
 #include "bone.h"
 #include <iostream>
+#include <map>
 
 class AnimatedModel
 {
 public:
     //CONSTRUCTOR
-    AnimatedModel(DrawableObject *model, std::vector<Bone*> skeleton);
+    AnimatedModel(DrawableObject *model, Bone* rootBone, std::vector<Bone*> skeleton);
 
     //FUNCTIONS
     void computeWeights(float smooth);
-    void updateModelVertice();
+    void updateModelVerticeLBS();
+//    void updateModelVerticeDQS();
+    void draw();
+    void bindAnimation(unsigned int VBO);
 
     //GETTERS
     DrawableObject* getModel() const {return model;}
+    Bone* getRootBone() const {return rootBone;}
+    Bone* getBone(QString name){for (Bone *b :skeleton) if (b->getName() == name) return b; return NULL;}
     std::vector<Bone*> getSkeleton() const {return skeleton;}
+    std::vector<glm::mat4> getU_inv() const {return U_inv;}
+    int getNbBones() const {return nbBones;}
+    std::vector<float> getWeightsForGPU() const {return weightsForGPU;}
 
 private:
     //ATTRIBUTES
     DrawableObject *model;
-    std::vector<Bone*> skeleton;
+    Bone* rootBone;
     int nbBones;
-    std::vector<std::vector<float> > weights;
+    std::map<Bone*, std::vector<float>> weights;
+    std::vector<float> weightsForGPU;
     std::vector<float> originalVertices;
+    std::vector<Bone*> skeleton;
+    std::vector<glm::mat4> U_inv;
 };
 
 #endif // ANIMATEDMODEL_H

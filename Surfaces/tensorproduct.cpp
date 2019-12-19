@@ -14,7 +14,7 @@ TensorProduct::TensorProduct(QString name, std::pair<int, int> size, KVType knot
 
     buildControlPoints();
     checkParameters();
-    computePoint(0.2, 0.2);
+    computePoint(0.1, 0.1);
     buildGeometry();
     buildinterVertices();
 }
@@ -68,7 +68,7 @@ void TensorProduct::update()
     generatrixVect.clear();
     guidelinesVect.clear();
     checkParameters();
-    computePoint(0.2, 0.2);
+    computePoint(0.1, 0.1);
     buildGeometry();
     buildinterVertices();
 }

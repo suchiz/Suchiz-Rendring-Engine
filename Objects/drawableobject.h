@@ -36,6 +36,7 @@ public:
     ObjectType getType() const {return objectType;}
     QString getName() const {return name;}
     bool getWire() const {return wire;}
+    unsigned int getVBO() const {return VBO;}
 
     //SETTERS
     void setColor(glm::vec3 c) {color = c;}
@@ -48,6 +49,7 @@ public:
 
 protected:
     //ATTRIBUTES
+    unsigned int VBO;
     bool wire = false;
     QString name;
     glm::vec3 scale = glm::vec3(1.0f);

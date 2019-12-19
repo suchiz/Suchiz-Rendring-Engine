@@ -21,9 +21,6 @@ public:
     void draw();
     void bind();
 
-private:
-    unsigned int VBO;
-
 };
 
 #endif // PLANE_H

@@ -25,7 +25,7 @@ public:
 
 private:
     //OPENGL ATTRIBUTES
-    unsigned int VBO, EBO;
+    unsigned int EBO;
     std::vector<unsigned int> indices;
 
     //SPHERE ATTRIBUTES

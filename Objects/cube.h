@@ -20,9 +20,6 @@ public:
     void enableNormals(unsigned int position);
     void draw();
     void bind();
-
-private:
-    unsigned int VBO;
 };
 
 #endif // CUBE_H

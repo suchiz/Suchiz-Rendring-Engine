@@ -151,6 +151,20 @@ void Capsule::addIndices(unsigned int i1, unsigned int i2, unsigned int i3)
     indices.push_back(i3);
 }
 
+void Capsule::buildInterleavedWeights(std::vector<float> weights)
+{
+    for (unsigned int i = 0, j = 0; i < vertices.size(); i+=6, j+=2){
+        interleavedVertices.push_back(vertices[i]);
+        interleavedVertices.push_back(vertices[i+1]);
+        interleavedVertices.push_back(vertices[i+2]);
+        interleavedVertices.push_back(vertices[i+3]);
+        interleavedVertices.push_back(vertices[i+4]);
+        interleavedVertices.push_back(vertices[i+5]);
+        interleavedVertices.push_back(weights[j]);
+        interleavedVertices.push_back(weights[j+1]);
+    }
+}
+
 std::vector<float> Capsule::getSideNormals()
 {
     const float PI = 3.1415926f;
@@ -184,6 +198,7 @@ void Capsule::bind()
     glad_glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size()*sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
 }
 
+
 void Capsule::enableVertices(unsigned int position)
 {
     glad_glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
@@ -195,11 +210,39 @@ void Capsule::enableNormals(unsigned int position)
     glad_glEnableVertexAttribArray(position);
 }
 
+void Capsule::enableWeights(unsigned int position)
+{
+    glad_glVertexAttribPointer(position, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glad_glEnableVertexAttribArray(position);
+}
+
 void Capsule::draw()
 {
     bind();
     enableVertices(0);
     enableNormals(1);
+    if (wire)
+        glad_glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+    else
+        glad_glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+    glad_glDrawElements(GL_TRIANGLES, (unsigned int)indices.size(), GL_UNSIGNED_INT,0);
+}
+
+void Capsule::drawAnim()
+{
+    glad_glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glad_glBufferData(GL_ARRAY_BUFFER, interleavedVertices.size()*sizeof(float), interleavedVertices.data(), GL_STATIC_DRAW);
+
+    glad_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glad_glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size()*sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
+
+    glad_glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glad_glEnableVertexAttribArray(0);
+
+    glad_glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    glad_glEnableVertexAttribArray(1);
+    enableWeights(2);
+
     if (wire)
         glad_glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     else

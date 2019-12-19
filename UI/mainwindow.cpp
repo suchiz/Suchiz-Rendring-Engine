@@ -76,6 +76,7 @@ void MainWindow::on_addButton_clicked()
 }
 void MainWindow::on_clearButton_clicked()
 {
+    ui->addKeyFrameButton->setEnabled(false);
     ui->objectListView->clear();
     scene->clearScene();
     scene->setFocus();
@@ -119,7 +120,7 @@ bool MainWindow::checkWire(int ind)
     return false;
 }
 
-void MainWindow::mouseReleaseEvent()
+void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 {
     scene->setFocus();
 }
@@ -142,6 +143,11 @@ void MainWindow::on_objectListView_itemChanged(QListWidgetItem *item)
 
 void MainWindow::on_animationDemoButton_pressed()
 {
+    ui->addKeyFrameButton->setEnabled(true);
+    if (ui->boneComboBox->count() == 0)
+        for (Bone* b : scene->getAnimatedModel()->getSkeleton())
+            ui->boneComboBox->addItem(b->getName());
+
     scene->clearScene();
     scene->createAnimationDemo();
     updateObjectList();
@@ -150,21 +156,64 @@ void MainWindow::on_animationDemoButton_pressed()
 
 void MainWindow::on_clearKeyFramesButton_pressed()
 {
-
+    ui->keyFramesList->clear();
+    scene->getAnimation()->clearKeyFrames();
 }
 
 void MainWindow::on_addKeyFrameButton_pressed()
 {
-
+    float lastTime = 0;
+    if (ui->keyFramesList->count() != 0)
+        lastTime = scene->getAnimation()->getLasTime();
+    QString time = ui->timeLineEdit->text();
+    if(std::regex_match(time.toStdString(), std::regex{"^[0-9]*.?[0-9]+$"})){
+        if (time.toFloat() > 0 && ui->keyFramesList->count() == 0){
+            scene->addKeyFrame(-1);
+            ui->keyFramesList->addItem("(0s)");
+            scene->addKeyFrame(time.toFloat());
+            ui->keyFramesList->addItem("("+time+ "s)");
+        } else if (time.toFloat() > lastTime || ui->keyFramesList->count() == 0){
+            scene->addKeyFrame(time.toFloat());
+            ui->keyFramesList->addItem("("+time+ "s)");
+        }
+    }
 }
 
 void MainWindow::on_deleteKeyFrameButton_pressed()
 {
-
+    if (ui->keyFramesList->currentRow() != -1){
+        scene->stopAnimation();
+        ui->keyFramesList->model()->removeRow(ui->keyFramesList->currentRow());
+        scene->getAnimation()->deleteKeyFrame(ui->keyFramesList->currentRow());
+    }
+    scene->setFocus();
 }
 
-void MainWindow::on_moveBoneCheckBox_toggled(bool checked)
+
+void MainWindow::on_playButton_pressed()
 {
-    scene->setMoveBone(checked);
+    scene->playAnimation();
+}
+
+void MainWindow::on_stopButton_pressed()
+{
+    scene->stopAnimation();
+}
+
+void MainWindow::on_rotateCheckBox_toggled(bool checked)
+{
+    scene->setRotateBone(checked);
+    scene->setFocus();
+}
+
+void MainWindow::on_translateCheckBox_toggled(bool checked)
+{
+    scene->setTranslateBone(checked);
+    scene->setFocus();
+}
+
+void MainWindow::on_boneComboBox_currentIndexChanged(int index)
+{
+    scene->setSelectedBone(index);
     scene->setFocus();
 }

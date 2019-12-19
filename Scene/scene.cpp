@@ -17,6 +17,7 @@ void Scene::initializeGL()
         depthmap = new DepthMap(this);
         glad_glGenVertexArrays(1, &objectsVAO);
         light = new Light();
+        initializeAnimation();
 
     } else {
         std::cout << "Error init glad" << std::endl;
@@ -50,7 +51,19 @@ void Scene::paintGL()
     for(unsigned int i(0); i < objectsToDraw.size(); ++i){
         objectShader->setMat4("model", objectsToDraw[i]->getModel());
         objectShader->setVec3("color", objectsToDraw[i]->getColor());
-        objectsToDraw[i]->draw();
+        objectShader->setBool("drawAnimation", drawAnimation);
+        if (drawAnimation){
+            std::vector<glm::mat4> D;
+            for(Bone *b : an_model->getSkeleton())
+                D.push_back(b->getAnimatedTransform());
+            objectShader->setMat4Array("D", D, an_model->getNbBones());
+            objectShader->setMat4Array("U_inv", an_model->getU_inv(), an_model->getNbBones());
+            Capsule *caps = (Capsule*) objectsToDraw[i];
+            caps->drawAnim();
+        } else {
+            objectsToDraw[i]->draw();
+        }
+
     }
 
     if(moveLight)
@@ -79,40 +92,58 @@ void Scene::createDemo(){
 void Scene::clearScene()
 {
     objectsToDraw.clear();
+    drawAnimation = false;
 }
 
 void Scene::createAnimationDemo()
 {
-    Capsule *cap = new Capsule("Caps");
+    drawAnimation = true;
+    addObject(an_model->getModel());
+}
 
-    Cube *cube1 = new Cube("Control 1");
-    cube1->setPosition(glm::vec3(0,0,2.5f));
+void Scene::initializeAnimation()
+{
+    Capsule *cap = new Capsule("Cylinder");
 
-    cube1->setSize(glm::vec3(0.1f));
-    cube1->setColor(glm::vec3(1.0,0,0));
-
-    Cube *cube2 = new Cube("Control 2");
-    cube2->setPosition(glm::vec3(0.f));
-    cube2->setSize(glm::vec3(0.1f));
-    cube2->setColor(glm::vec3(1.0,0,0));
-
-    Bone *bone1 = new Bone(0, "arm", glm::mat4(1.0f));
-    Bone *bone2 = new Bone(1, "hand", glm::mat4(1.0f));
+    Bone *bone1 = new Bone(0, "Arm", glm::mat4(1.0f));
+    Bone *bone2 = new Bone(1, "Hand", glm::mat4(1.0f));
+    //Bone *bone3 = new Bone(2, "Fingers", glm::mat4(1.0f));
     bone1->setPosition(glm::vec3(0.f));
     bone2->setPosition(glm::vec3(0.f));
     bone1->addChildren(bone2);
-    bone1->calcInverseRestTransform(glm::mat4(1.0f));
+    //bone2->addChildren(bone3);
+    //bone3->setPosition(glm::vec3(-1.f));
 
     std::vector<Bone*> skeleton;
     skeleton.push_back(bone1);
     skeleton.push_back(bone2);
+    //skeleton.push_back(bone3);
 
-    an_model = new AnimatedModel(cap, skeleton);
+    an_model = new AnimatedModel(cap, bone1, skeleton);
     an_model->computeWeights(0.9f);
+    cap->buildInterleavedWeights(an_model->getWeightsForGPU());
+    std::vector<KeyFrame> kf;
+    animation = new Animation(an_model,0, kf);
+}
 
-    addObject(cap);
-    addObject(cube1);
-    addObject(cube2);
+void Scene::addKeyFrame(float time)
+{
+    if (time == -1){
+        std::map<QString, BoneTransform*> datas;
+        for (Bone* b: an_model->getSkeleton()){
+            BoneTransform *bt = new BoneTransform(glm::vec3(0.f), glm::vec3(0.f));
+            datas.insert(std::pair<QString, BoneTransform*> {b->getName(), bt});
+        }
+        KeyFrame kf(0, datas);
+        animation->addKeyFrame(kf);
+    }
+    std::map<QString, BoneTransform*> datas;
+    for (Bone* b: an_model->getSkeleton()){
+        BoneTransform *bt = new BoneTransform(b->getPosition(), b->getRotation());
+        datas.insert(std::pair<QString, BoneTransform*> {b->getName(), bt});
+    }
+    KeyFrame kf(time, datas);
+    animation->addKeyFrame(kf);
 }
 
 void Scene::keyPressEvent(QKeyEvent *keyEvent)
@@ -122,9 +153,12 @@ void Scene::keyPressEvent(QKeyEvent *keyEvent)
     case Qt::Key_Z:
         if (moveLight){
             light->increaseHeight();
-        }else if (moveBone){
-            an_model->getSkeleton()[1]->roll(5);
-            an_model->updateModelVertice();
+        }else if (rotateBone){
+            selectedBone->roll(5);;
+//            an_model->updateModelVerticeLBS();
+        }else if (translateBone){
+            selectedBone->translate_x(0.1);
+//            an_model->updateModelVerticeLBS();
         }else{
             camera->ProcessKeyboard(FORWARD);
         }
@@ -133,9 +167,12 @@ void Scene::keyPressEvent(QKeyEvent *keyEvent)
     case Qt::Key_S:
         if (moveLight){
              light->decreaseHeight();
-        }else if (moveBone){
-            an_model->getSkeleton()[1]->roll(-5);
-            an_model->updateModelVertice();
+        }else if (rotateBone){
+            selectedBone->roll(-5);;
+//            an_model->updateModelVerticeLBS();
+        }else if (translateBone){
+            selectedBone->translate_x(-0.1);
+//            an_model->updateModelVerticeLBS();
         }else{
             camera->ProcessKeyboard(BACKWARD);
             }
@@ -144,9 +181,12 @@ void Scene::keyPressEvent(QKeyEvent *keyEvent)
     case Qt::Key_Q:
         if (moveLight){
             light->increaseDistance();
-        }else if (moveBone){
-            an_model->getSkeleton()[1]->yaw(5);
-            an_model->updateModelVertice();
+        }else if (rotateBone){
+            selectedBone->yaw(5);
+//            an_model->updateModelVerticeLBS();
+        }else if (translateBone){
+            selectedBone->translate_z(0.1);
+//            an_model->updateModelVerticeLBS();
         }else{
             camera->ProcessKeyboard(LEFT);
             }
@@ -155,25 +195,34 @@ void Scene::keyPressEvent(QKeyEvent *keyEvent)
     case Qt::Key_D:
         if (moveLight){
             light->decreaseDistance();
-        }else if (moveBone){
-            an_model->getSkeleton()[1]->yaw(-5);
-            an_model->updateModelVertice();
+        }else if (rotateBone){
+            selectedBone->yaw(-5);;
+//            an_model->updateModelVerticeLBS();
+        }else if (translateBone){
+            selectedBone->translate_z(-0.1);
+//            an_model->updateModelVerticeLBS();
         }else{
             camera->ProcessKeyboard(RIGHT);
             }
         updateGL();
         break;
     case Qt::Key_T:
-        if (moveBone){
-            an_model->getSkeleton()[1]->pitch(+5);
-            an_model->updateModelVertice();
+        if (rotateBone){
+            selectedBone->pitch(5);
+//            an_model->updateModelVerticeLBS();
+        }else if (translateBone){
+            selectedBone->translate_y(0.1);
+//            an_model->updateModelVerticeLBS();
         }
         updateGL();
         break;
     case Qt::Key_B:
-        if (moveBone){
-            an_model->getSkeleton()[1]->pitch(-5);
-            an_model->updateModelVertice();
+        if (rotateBone){
+            selectedBone->pitch(-5);;
+//            an_model->updateModelVerticeLBS();
+        } else if (translateBone){
+            selectedBone->translate_y(-0.1);
+//            an_model->updateModelVerticeLBS();
         }
         updateGL();
         break;

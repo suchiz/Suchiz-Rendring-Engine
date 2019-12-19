@@ -21,12 +21,12 @@ SurfaceEdit::SurfaceEdit(QWidget *parent, MainWindow *mw) : QDialog(parent),
     ui->editSceneContainer->setLayout(tempLayout);
 }
 
-void SurfaceEdit::mousePressEvent()
+void SurfaceEdit::mousePressEvent(QMouseEvent *event)
 {
     scene->setFocus();
 }
 
-void SurfaceEdit::closeEvent()
+void SurfaceEdit::closeEvent(QCloseEvent *event)
 {
     if (!mw->checkWire(ind))
         obj->setWire(false);

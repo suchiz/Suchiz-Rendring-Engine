@@ -15,20 +15,6 @@ OpenGLWindow::OpenGLWindow(int framesPerSecond, QWidget *parent, const char* nam
     }
 }
 
-void OpenGLWindow::keyPressEvent(QKeyEvent *keyEvent)
-{
-
-}
-
-void OpenGLWindow::mouseMoveEvent(QMouseEvent *mouseEvent)
-{
-
-}
-
-void OpenGLWindow::wheelEvent(QWheelEvent *wheelEvent)
-{
-
-}
 
 void OpenGLWindow::timeOutSlot()
 {

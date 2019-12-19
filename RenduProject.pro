@@ -34,7 +34,9 @@ SOURCES += UI/main.cpp\
     Surfaces/editsurfaceview.cpp \
     Animation/bone.cpp \
     Animation/animatedmodel.cpp \
-    Animation/keyframe.cpp
+    Animation/keyframe.cpp \
+    Animation/animation.cpp \
+    Animation/bonetransform.cpp
 
 
 HEADERS  += UI/mainwindow.h \
@@ -81,7 +83,9 @@ HEADERS  += UI/mainwindow.h \
     Surfaces/editsurfaceview.h \
     Animation/bone.h \
     Animation/animatedmodel.h \
-    Animation/keyframe.h
+    Animation/keyframe.h \
+    Animation/animation.h \
+    Animation/bonetransform.h
 
 
 FORMS    += UI/mainwindow.ui \
