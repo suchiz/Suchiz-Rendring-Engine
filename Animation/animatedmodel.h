@@ -22,8 +22,7 @@ public:
     void computeWeights(float smooth);
     void updateModelVerticeLBS();
 //    void updateModelVerticeDQS();
-    void draw();
-    void bindAnimation(unsigned int VBO);
+
 
     //GETTERS
     DrawableObject* getModel() const {return model;}
