@@ -104,26 +104,29 @@ void Scene::createAnimationDemo()
 void Scene::initializeAnimation()
 {
     Capsule *cap = new Capsule("Cylinder");
+    glm::vec3 pos1 = glm::vec3(0,0,3.f);
+    glm::vec3 pos2 = glm::vec3(0,0,1.f);
+    glm::vec3 pos3 = glm::vec3(0,0,-1.f);
 
     Bone *bone1 = new Bone(0, "Arm", glm::mat4(1.0f));
     Bone *bone2 = new Bone(1, "Hand", glm::mat4(1.0f));
-    //Bone *bone3 = new Bone(2, "Fingers", glm::mat4(1.0f));
-    bone1->setPosition(glm::vec3(0.f));
-    bone2->setPosition(glm::vec3(0.f));
+    Bone *bone3 = new Bone(2, "Fingers", glm::mat4(1.0f));
+    bone1->setPosition(pos1);
+    bone2->setPosition(pos2);
     bone1->addChildren(bone2);
-    //bone2->addChildren(bone3);
-    //bone3->setPosition(glm::vec3(-1.f));
+    bone2->addChildren(bone3);
+    bone3->setPosition(pos3);
 
     std::vector<Bone*> skeleton;
     skeleton.push_back(bone1);
     skeleton.push_back(bone2);
-    //skeleton.push_back(bone3);
+    skeleton.push_back(bone3);
 
     an_model = new AnimatedModel(cap, bone1, skeleton);
-    an_model->computeWeights(0.9f);
-    cap->buildInterleavedWeights(an_model->getWeightsForGPU());
+    an_model->computeWeights(0.5f);
+    cap->buildInterleavedWeights(an_model->getWeights());
     std::vector<KeyFrame> kf;
-    animation = new Animation(an_model,0, kf);
+    animation = new Animation(an_model, 0, kf);
 }
 
 void Scene::addKeyFrame(float time)
@@ -155,10 +158,8 @@ void Scene::keyPressEvent(QKeyEvent *keyEvent)
             light->increaseHeight();
         }else if (rotateBone){
             selectedBone->roll(5);;
-//            an_model->updateModelVerticeLBS();
         }else if (translateBone){
             selectedBone->translate_x(0.1);
-//            an_model->updateModelVerticeLBS();
         }else{
             camera->ProcessKeyboard(FORWARD);
         }
@@ -169,10 +170,8 @@ void Scene::keyPressEvent(QKeyEvent *keyEvent)
              light->decreaseHeight();
         }else if (rotateBone){
             selectedBone->roll(-5);;
-//            an_model->updateModelVerticeLBS();
         }else if (translateBone){
             selectedBone->translate_x(-0.1);
-//            an_model->updateModelVerticeLBS();
         }else{
             camera->ProcessKeyboard(BACKWARD);
             }
@@ -183,10 +182,8 @@ void Scene::keyPressEvent(QKeyEvent *keyEvent)
             light->increaseDistance();
         }else if (rotateBone){
             selectedBone->yaw(5);
-//            an_model->updateModelVerticeLBS();
         }else if (translateBone){
             selectedBone->translate_z(0.1);
-//            an_model->updateModelVerticeLBS();
         }else{
             camera->ProcessKeyboard(LEFT);
             }
@@ -197,10 +194,8 @@ void Scene::keyPressEvent(QKeyEvent *keyEvent)
             light->decreaseDistance();
         }else if (rotateBone){
             selectedBone->yaw(-5);;
-//            an_model->updateModelVerticeLBS();
         }else if (translateBone){
             selectedBone->translate_z(-0.1);
-//            an_model->updateModelVerticeLBS();
         }else{
             camera->ProcessKeyboard(RIGHT);
             }
@@ -209,20 +204,16 @@ void Scene::keyPressEvent(QKeyEvent *keyEvent)
     case Qt::Key_T:
         if (rotateBone){
             selectedBone->pitch(5);
-//            an_model->updateModelVerticeLBS();
         }else if (translateBone){
             selectedBone->translate_y(0.1);
-//            an_model->updateModelVerticeLBS();
         }
         updateGL();
         break;
     case Qt::Key_B:
         if (rotateBone){
             selectedBone->pitch(-5);;
-//            an_model->updateModelVerticeLBS();
         } else if (translateBone){
             selectedBone->translate_y(-0.1);
-//            an_model->updateModelVerticeLBS();
         }
         updateGL();
         break;
