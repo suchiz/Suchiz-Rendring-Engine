@@ -2,7 +2,9 @@
 
 Requires at least OpenGL 3.3, Qt 4.7 and C++11
 This is a small 3D Engine made for a university project purpose.
-![Alt text](./Resources/Demo.png?raw=true "Suchiz 3D Engine)
+
+![alt text](./Resources/Demo.png?raw=true "Suchiz 3D Engine")
+
 This contains a Blinn-Phong lightning and shadowmaps for the rendering part, nurbs/b-splines for the geometry part, and finally Linear Blending Skinning on GPU for the animation part.
 You have the possibility to create your own scene.
 
