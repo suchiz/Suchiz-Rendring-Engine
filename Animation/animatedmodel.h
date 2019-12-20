@@ -20,9 +20,6 @@ public:
 
     //FUNCTIONS
     void computeWeights(float smooth);
-    void updateModelVerticeLBS();
-//    void updateModelVerticeDQS();
-
 
     //GETTERS
     DrawableObject* getModel() const {return model;}
@@ -31,16 +28,14 @@ public:
     std::vector<Bone*> getSkeleton() const {return skeleton;}
     std::vector<glm::mat4> getU_inv() const {return U_inv;}
     int getNbBones() const {return nbBones;}
-    std::vector<float> getWeightsForGPU() const {return weightsForGPU;}
+    std::vector<float> getWeights() const {return weights;}
 
 private:
     //ATTRIBUTES
     DrawableObject *model;
     Bone* rootBone;
     int nbBones;
-    std::map<Bone*, std::vector<float>> weights;
-    std::vector<float> weightsForGPU;
-    std::vector<float> originalVertices;
+    std::vector<float> weights;
     std::vector<Bone*> skeleton;
     std::vector<glm::mat4> U_inv;
 };

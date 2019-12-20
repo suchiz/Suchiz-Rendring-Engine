@@ -77,6 +77,7 @@ void Animation::interpolate(KeyFrame previousFrame, KeyFrame nextFrame, float pr
     std::vector<QString> bonesName;
     for (std::pair<QString, BoneTransform*> pose : previousFrame.getPoses())
         bonesName.push_back(pose.first);
+
     for (QString currentBone : bonesName){
         BoneTransform* previousTransform = previousFrame.getPoses()[currentBone];
         BoneTransform* nextTransform = nextFrame.getPoses()[currentBone];
