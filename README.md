@@ -29,7 +29,9 @@ Size = (1,1,1), color = (255,255,255), position = (0,0,0), rotation = (0,0,0) fo
 height =2, width = 2, color = (255,255,255), position = (0,0,0) for nurbs
 
 You can find demos at: 
-https://drive.google.com/file/d/1tCMC7BInzmJ8H0W1BcLmhXj2yWSW2y4c/view?usp=sharing
-https://drive.google.com/file/d/1gMGxQxszM15c775RfD36k2QyhtkJzoPh/view?usp=sharing
+[![Watch the video](./Resources/DemoKeyframes.PNG?raw=true "Suchiz 3D Engine")](https://drive.google.com/file/d/1tCMC7BInzmJ8H0W1BcLmhXj2yWSW2y4c/view?usp=sharing)
+[![Watch the video](./Resources/DemoEdition.PNG?raw=true "Suchiz 3D Engine")](https://drive.google.com/file/d/1gMGxQxszM15c775RfD36k2QyhtkJzoPh/view?usp=sharing)
+
+
 
 
